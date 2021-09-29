@@ -1,0 +1,40 @@
+server:
+  port: 8082
+#  servlet:
+#    context-path: /
+
+spring:
+#  thymeleaf:
+#    cache: false
+#    suffix: .html
+#    enabled: true
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cinema_spring?useUnicode=true&serverTimezone=UTC
+    username: root
+    password: root
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+    initialization-mode: always
+    data: classpath:/data-mysql.sql
+    platform: mysql
+
+
+
+  jpa:
+     hibernate:
+       ddl-auto: none
+     database: mysql
+     database-platform: org.hibernate.dialect.MySQL8Dialect
+     open-in-view: true
+     show-sql: true
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+
+
+
+
