@@ -77,7 +77,7 @@ public class AdminController {
     }
 
     @GetMapping("/{movieId}/delete")
-    public ModelAndView deleteMovie(@PathVariable Long movieId, Model model) {
+    public ModelAndView deleteMovie(@PathVariable Long movieId) {
         log.info("delete movie with id: " + movieId);
         movieService.deleteMovie(movieId);
         ModelAndView mav = new ModelAndView("redirect:/admin/manageMovie");

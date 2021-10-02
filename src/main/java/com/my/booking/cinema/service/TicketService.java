@@ -32,4 +32,10 @@ public class TicketService {
         return ticketsList.size() == savedList.size();
     }
 
+    public List<TicketDto> findTicketByUserId(Long userId){
+        List<Ticket> ticketsBySession = ticketDao.findTicketByUserId(userId);
+        return ticketsBySession.stream().map(ticket-> mapper.map(ticket, TicketDto.class)).collect(Collectors.toList());
+    }
+
+
 }

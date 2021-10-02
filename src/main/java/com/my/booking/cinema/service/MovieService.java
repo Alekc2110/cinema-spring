@@ -8,11 +8,13 @@ import com.my.booking.cinema.model.MovieSession;
 import com.my.booking.cinema.model.dto.MovieDto;
 import com.my.booking.cinema.model.dto.MovieSessionDto;
 import com.my.booking.cinema.model.web.MovieCreateDto;
+import com.my.booking.cinema.model.web.TableSessionDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -78,5 +80,17 @@ public class MovieService {
     public void deleteMovie(Long movieId){
         log.info("delete movie by id: " + movieId);
          movieDao.deleteMovie(movieId);
+    }
+
+    public List<TableSessionDTO> returnViewSessionList(){
+        List<TableSessionDTO> viewList = new ArrayList<>();
+        List<Movie> allActiveMovies = movieDao.getAllMovies().stream().
+                filter(movie -> movie.getMovieSessionList().size() > 0).collect(Collectors.toList());
+        allActiveMovies.forEach(movie ->
+                movie.getMovieSessionList().forEach(ms -> {
+                    viewList.add(TableSessionDTO.builder().id(movie.getId()).
+                            movieTitle(movie.getTitle()).date(ms.getShowDate()).time(ms.getShowTime()).build());
+                }));
+        return viewList;
     }
 }

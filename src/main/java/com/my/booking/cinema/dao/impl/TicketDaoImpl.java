@@ -27,4 +27,9 @@ public class TicketDaoImpl implements TicketDao {
     public List<Ticket> saveTickets(List<Ticket> tickets) {
         return ticketRepository.saveAll(tickets);
     }
+
+    @Override
+    public List<Ticket> findTicketByUserId(Long userId) {
+        return ticketRepository.findAllByUserId(userId);
+    }
 }

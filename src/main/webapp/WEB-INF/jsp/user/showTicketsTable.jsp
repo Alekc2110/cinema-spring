@@ -20,49 +20,48 @@
         <thead class="thead-light">
         <tr>
             <th data-type="text" class="th-sm cursor"><fmt:message key="show.ticket.date"/>
-                <img src="${pageContext.request.contextPath}/img/sort-icon.png" width="20px" height="20px" alt="sort">
+                <img src="/resources/img/sort-icon.png" width="20px" height="20px" alt="sort">
             </th>
             <th data-type="text" class="th-sm cursor"><fmt:message key="show.ticket.time"/>
-                <img src="${pageContext.request.contextPath}/img/sort-icon.png" width="20px" height="20px" alt="sort">
+                <img src="/resources/img/sort-icon.png" width="20px" height="20px" alt="sort">
             </th>
             <th data-type="text" class="th-sm cursor"><fmt:message key="show.ticket.row.number"/>
-                <img src="${pageContext.request.contextPath}/img/sort-icon.png" width="20px" height="20px" alt="sort">
+                <img src="/resources/img/sort-icon.png" width="20px" height="20px" alt="sort">
             </th>
             <th data-type="text" class="th-sm cursor"><fmt:message key="show.ticket.seat.number"/>
-                <img src="${pageContext.request.contextPath}/img/sort-icon.png" width="20px" height="20px" alt="sort">
+                <img src="/resources/img/sort-icon.png" width="20px" height="20px" alt="sort">
             </th>
             <th data-type="text" class="th-sm cursor"><fmt:message key="show.ticket.price"/>
-                <img src="${pageContext.request.contextPath}/img/sort-icon.png" width="20px" height="20px" alt="sort">
+                <img src="/resources/img/sort-icon.png" width="20px" height="20px" alt="sort">
             </th>
         </tr>
         </thead>
         <tbody id="tbody">
-        <c:forEach items="${requestScope.ticketList}" var="ticket" begin="0" end="${requestScope.recordPerPage -1}">
+        <c:forEach items="${ticketList}" var="ticket">
             <tr>
-                <td><c:out value="${ticket.movieSession.date}"/></td>
-                <td><c:out value="${ticket.movieSession.time}"/></td>
-                <td><c:out value="${ticket.row.number}"/></td>
+                <td><c:out value="${ticket.movieSession.showDate}"/></td>
+                <td><c:out value="${ticket.movieSession.showTime}"/></td>
+                <td><c:out value="${ticket.seat.line.number}"/></td>
                 <td><c:out value="${ticket.seat.number}"/></td>
                 <td><c:out value="${ticket.movieSession.ticketPrice}"/></td>
-
             </tr>
         </c:forEach>
         </tbody>
     </table>
 </div>
-<nav aria-label="...">
-    <ul class="pagination pagination-sm justify-content-center">
-        <c:forEach var="pagNumber" begin="1" end="${requestScope.pageNumbers}">
-            <li class="page-item">
-                <a class="page-link"
-                   href="${pageContext.request.contextPath}/cinema/ticketsTable?pagination=${pagNumber}">
-                    <c:out value="${pagNumber}"/></a>
-            </li>
-        </c:forEach>
-    </ul>
-</nav>
+<%--<nav aria-label="...">--%>
+<%--    <ul class="pagination pagination-sm justify-content-center">--%>
+<%--        <c:forEach var="pagNumber" begin="1" end="${requestScope.pageNumbers}">--%>
+<%--            <li class="page-item">--%>
+<%--                <a class="page-link"--%>
+<%--                   href="${pageContext.request.contextPath}/cinema/ticketsTable?pagination=${pagNumber}">--%>
+<%--                    <c:out value="${pagNumber}"/></a>--%>
+<%--            </li>--%>
+<%--        </c:forEach>--%>
+<%--    </ul>--%>
+<%--</nav>--%>
 
-<script src="${pageContext.request.contextPath}/js/search.js"></script>
-<script src="${pageContext.request.contextPath}/js/orderSort.js"></script>
+<script src="/resources/js/search.js"></script>
+<script src="/resources/js/orderSort.js"></script>
 </body>
 </html>

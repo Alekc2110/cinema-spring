@@ -123,8 +123,7 @@ public class OrderController {
             order.setOrderStatus(Status.CONFIRMED);
             if (orderService.updateOrder(order)) {
                 log.info("order status updated, try to save tickets list");
-                if (ticketService.saveTickets(order.getTicketList()))
-                    return "redirect:/home";
+                return "redirect:/home";
             }
         }
         MovieSessionDto movieSessionById = movieService.findMovieSessionById(movieSesId);

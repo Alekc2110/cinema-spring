@@ -6,7 +6,7 @@
 
 <div style="margin: 0; padding-left: 0" class="container justify-content-start">
     <a href="${pageContext.request.contextPath}/home" id="logo" title="HOME_PAGE">
-        <img src="${pageContext.request.contextPath}resources/img/cinema-logo.jpg" width="60px" height="60px"
+        <img src="/resources/img/cinema-logo.jpg" width="60px" height="60px"
              alt="HOME_PAGE">
     </a>
 </div>
@@ -39,7 +39,7 @@
                 <fmt:message key="nav.bar.now.showing"/></a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="${pageContext.request.contextPath}/info"><fmt:message
+            <a class="nav-link" href="/info"><fmt:message
                     key="nav.bar.contacts"/></a>
         </li>
         <li class="nav-item">
@@ -51,7 +51,7 @@
 
         <li class="nav-item">
             <sec:authorize access="hasAnyRole('ADMIN', 'USER')">
-                <a class="nav-link" href="${pageContext.request.contextPath}/cinema/showMovieTable">
+                <a class="nav-link" href="${pageContext.request.contextPath}/user/show/MovieTable">
                     <fmt:message key="nav.bar.all.movies.table"/></a>
             </sec:authorize>
         </li>
@@ -65,7 +65,7 @@
 
         <li class="nav-item">
             <sec:authorize access="hasAnyRole('ADMIN', 'USER')">
-                <a class="nav-link" href="${pageContext.request.contextPath}/cinema/ticketsTable">
+                <a class="nav-link" href="${pageContext.request.contextPath}/user/show/ticketsTable">
                     <fmt:message key="nav.bar.all.movies.tickets"/></a>
             </sec:authorize>
         </li>
@@ -74,6 +74,7 @@
             <a class="nav-link" href="${pageContext.request.contextPath}/login">
                 <fmt:message key="user.account.login"/></a>
         </li>
+
         <li class="nav-item">
             <sec:authorize access="isAuthenticated()">
                 <a class="nav-link" href="${pageContext.request.contextPath}/logout">
