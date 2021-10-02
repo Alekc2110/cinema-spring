@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface SeatRepository extends JpaRepository<Seat, Long> {
 
-    @Query(value = "SELECT * FROM movie_sessions_booked_seats ms JOIN seat s ON ms.seat_id = s.id WHERE ms.movie_session_id = ?1", nativeQuery = true)
+    @Query(value = "SELECT * FROM `seats` s JOIN`line` l ON s.line_id = l.id JOIN tickets t ON s.id = t.seat_id WHERE t.movie_session_id = ?1", nativeQuery = true)
     List<Seat> getAllBookedSeats(Long msId);
+
 }

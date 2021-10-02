@@ -6,9 +6,8 @@
 <!DOCTYPE html>
 <html lang="${param.lang}">
 <jsp:include page="/WEB-INF/jsp/parts/head_tag.jsp"/>
-
-<form:form id="form-edit-icon" modelAttribute="movie" class="form-horizontal" method="POST"
-      action="${pageContext.request.contextPath}/admin/addMovie">
+<div id="form-edit-icon" class="form-horizontal">
+<form:form method="POST" modelAttribute="movie" action="${pageContext.request.contextPath}/admin/movie/new">
     <fieldset>
         <!-- Form Name -->
         <legend><fmt:message key="add.movie.table.title"/></legend>
@@ -47,7 +46,7 @@
             <div class="col-md-5">
                 <input
                         id="photo"
-                        name="photo"
+                        name="photoUrl"
                         type="text"
                         class="form-control input-md"
                         required=""
@@ -109,17 +108,18 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="save"></label>
             <div class="col-md-4">
-                <button id="save" type="submit" name="save" class="btn btn-primary">
+                <button id="save" type="submit" class="btn btn-primary">
                     <fmt:message key="add.movie.button.save"/></button>
             </div>
         </div>
     </fieldset>
 </form:form>
+</div>
 <!-- Button -->
 <div class="form-group">
     <label class="col-md-4 control-label" for="close"></label>
     <div class="col-md-4">
-        <a href="${pageContext.request.contextPath}/cinema/manageMovie">
+        <a href="${pageContext.request.contextPath}/admin/manageMovie">
             <button id="close" name="close" data-dismiss="modal" aria-label="Close" class="btn btn-info"><fmt:message
                     key="add.movie.button.close"/></button>
         </a>

@@ -18,20 +18,18 @@
 
 <div class="container">
     <p><fmt:message key="show.movie.table.title"/></p>
-<%--    <c:if test="${success-adding == false}">--%>
+<%--    <c:if test="${param.successUpdate == false}">--%>
 <%--        <p class="errorsM"><fmt:message key="update.movie.bad.input"/></p>--%>
 <%--    </c:if>--%>
-<%--    <c:if test="${success-adding == true}">--%>
-<%--        <p class="alert-success"><fmt:message key="update.movie.successful"/></p>--%>
-<%--    </c:if>--%>
+    <c:if test="${param.successUpdate == true}">
+        <p class="alert-success">
+            <fmt:message key="update.movie.successful"/></p>
+    </c:if>
     <c:if test="${param.successUpdate == false}">
         <p class="errorsM"><fmt:message key="update.movie.false"/></p>
     </c:if>
     <c:if test="${param.successDel == true}">
         <p class="alert-success"><fmt:message key="delete.movie.successful"/></p>
-    </c:if>
-    <c:if test="${param.successDel == false}">
-        <p class="errorsM"><fmt:message key="delete.movie.false"/></p>
     </c:if>
     <c:if test="${param.successAdd == true}">
         <p class="alert-success"><fmt:message key="add.movie.successful"/></p>
@@ -39,7 +37,7 @@
     <c:if test="${param.successAdd == false}">
         <p class="errorsM"><fmt:message key="add.movie.false"/></p>
     </c:if>
-    <a href="${pageContext.request.contextPath}/admin/addMovie">
+    <a href="${pageContext.request.contextPath}/admin/movie/new">
     <button type="button" class="btn btn-primary btn-lg btn-block"><fmt:message key="add.movie.button.add"/></button>
     </a>
 
@@ -66,9 +64,9 @@
                 <td><c:out value="${movie.country}"/></td>
                 <td><a href="${pageContext.request.contextPath}/admin/manageMovieSession/${movie.id}">
                     <fmt:message key="nav.bar.movie.sessions"/></a></td>
-                <td><a href="${pageContext.request.contextPath}/admin/editMovie/${movie.id}"><fmt:message
+                <td><a href="${pageContext.request.contextPath}/admin/${movie.id}/edit"><fmt:message
                         key="nav.bar.movie.edit"/></a></td>
-                <td><a href="${pageContext.request.contextPath}/admin/deleteMovie/${movie.id}"><fmt:message
+                <td><a href="${pageContext.request.contextPath}/admin/${movie.id}/delete"><fmt:message
                         key="nav.bar.movie.delete"/></a></td>
             </tr>
         </c:forEach>

@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -19,14 +20,5 @@ public class Line {
 
     @Column(name = "line_number")
     private int number;
-
-    @OneToMany(mappedBy = "line", cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
-    private List<Seat> seatList;
-
-    @OneToOne(mappedBy = "line", cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Ticket ticket;
 
 }

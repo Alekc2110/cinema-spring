@@ -30,15 +30,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
-                .antMatchers("/**", "/cinema/*", "/home", "/info", "/nowShowing", "/movieDetail/**", "/resources/**")
+                .authorizeRequests().anyRequest()
+//                .antMatchers("/**", "/cinema/*", "/home", "/info", "/nowShowing", "/movieDetail/**", "/resources/**")
                 .permitAll()
-                .antMatchers("/admin/**")
-                .hasRole("ADMIN")
-                .antMatchers("/user/**")
-                .hasAnyRole("ADMIN", "USER")
-                .antMatchers("/profile").hasAnyRole("ADMIN", "USER")
-                .anyRequest().authenticated()
+//                .antMatchers("/admin/**")
+//                .hasRole("ADMIN")
+//                .antMatchers("/user/**")
+//                .hasAnyRole("ADMIN", "USER")
+//                .antMatchers("/profile").hasAnyRole("ADMIN", "USER")
+//                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .permitAll()
@@ -58,12 +58,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("resources/js/**");
-        web.ignoring().antMatchers("resources/img/**");
-        web.ignoring().antMatchers("resources/css/**");
-    }
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        web.ignoring().antMatchers("resources/js/**");
+//        web.ignoring().antMatchers("resources/img/**");
+//        web.ignoring().antMatchers("resources/css/**");
+//    }
 
 
     @Bean

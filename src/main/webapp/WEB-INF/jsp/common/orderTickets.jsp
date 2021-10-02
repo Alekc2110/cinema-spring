@@ -29,11 +29,11 @@
                     <c:forEach items="${allSeats}" var="seat">
                         <div class="grid-item">
                             <c:if test="${seat.status.name().equals('BOOKED')}">
-                                <img src="${pageContext.request.contextPath}resources/img/seat_booked.jpg" alt="seat_booked" width="60px" height="60px" title="BOOKED">
+                                <img src="/resources/img/seat_booked.jpg" alt="seat_booked" width="60px" height="60px" title="BOOKED">
                                 <c:out value="${seat.number}"/>
                             </c:if>
                             <c:if test="${seat.status.name().equals('FREE')}">
-                                <img src="${pageContext.request.contextPath}resources/img/seat_icon.jpg" alt="seat" width="60px" height="60px" title="FREE">
+                                <img src="/resources/img/seat_icon.jpg" alt="seat" width="60px" height="60px" title="FREE">
                                 <input class="form-check-input" type="checkbox" id="inlineCheckbox1" name="seatId" value="${seat.id}">
                                 <label class="form-check-label" for="inlineCheckbox1"></label>
                                 <c:out value="${seat.number}"/>

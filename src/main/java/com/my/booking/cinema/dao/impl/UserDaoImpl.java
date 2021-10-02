@@ -30,8 +30,8 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public User save(User user) {
-        return userRepository.save(user);
+    public Optional<User> save(User user) {
+        return Optional.of(userRepository.save(user));
     }
 
 }

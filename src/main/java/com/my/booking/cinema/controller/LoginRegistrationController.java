@@ -3,7 +3,7 @@ package com.my.booking.cinema.controller;
 import com.my.booking.cinema.model.web.LoginRequest;
 import com.my.booking.cinema.model.web.SignupRequest;
 import com.my.booking.cinema.service.UserService;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,15 +12,12 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@AllArgsConstructor
 @Slf4j
 @Controller
 public class LoginRegistrationController {
 
     private final UserService userService;
-
-    public LoginRegistrationController(UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping("/login")
     public String loginPage(@ModelAttribute("userForm") LoginRequest userForm) {

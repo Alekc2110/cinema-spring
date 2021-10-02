@@ -1,9 +1,12 @@
 package com.my.booking.cinema.service;
 
 import com.my.booking.cinema.dao.MovieDao;
+import com.my.booking.cinema.dao.MovieSessionDao;
 import com.my.booking.cinema.exception.EntitySaveDaoException;
 import com.my.booking.cinema.model.Movie;
+import com.my.booking.cinema.model.MovieSession;
 import com.my.booking.cinema.model.dto.MovieDto;
+import com.my.booking.cinema.model.dto.MovieSessionDto;
 import com.my.booking.cinema.model.web.MovieCreateDto;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -18,20 +22,21 @@ import java.util.stream.Collectors;
 public class MovieService {
 
     private final MovieDao movieDao;
+    private final MovieSessionDao movieSessionDao;
     private final ModelMapper mapper;
 
-    public MovieService(MovieDao movieDao, ModelMapper mapper) {
+    public MovieService(MovieDao movieDao, MovieSessionDao movieSessionDao, ModelMapper mapper) {
         this.movieDao = movieDao;
+        this.movieSessionDao = movieSessionDao;
         this.mapper = mapper;
     }
 
     public List<MovieDto> findAllActiveMovies(){
         log.info("return list of active movies in movieService");
-        List<MovieDto> allMovieDtos = movieDao.getAllMovies().stream().
+        List<Movie> allMovies = movieDao.getAllMovies();
+        return allMovies.stream().
+                filter(movie -> movie.getMovieSessionList().size()>0).
                 map(movie -> mapper.map(movie, MovieDto.class)).collect(Collectors.toList());
-
-        return allMovieDtos.stream().
-                filter(movie -> movie.getMovieSessionList().size()>0).collect(Collectors.toList());
     }
 
     public MovieDto findMovieById(Long movieId){
@@ -50,5 +55,28 @@ public class MovieService {
         log.info("save new movie in movieService: " + movieCreateDto);
         return movieDao.saveMovie(mapper.map(movieCreateDto, Movie.class)).
                 map(Movie::getId).orElseThrow(EntitySaveDaoException::new);
+    }
+
+    public List<MovieSessionDto> findMovieSesByMovieId(MovieDto movieDto){
+        log.info("find movie sessions by movieDto: " + movieDto);
+        List<MovieSession> movieSessionsByMovie = movieSessionDao.getMovieSessionsByMovie(mapper.map(movieDto, Movie.class));
+        return movieSessionsByMovie.stream().map(ms-> mapper.map(ms, MovieSessionDto.class)).collect(Collectors.toList());
+    }
+
+    public MovieSessionDto findMovieSessionById(Long movieSesId){
+        log.info("find movie sessions by movie session id: " + movieSesId);
+        MovieSession movieSessionsById = movieSessionDao.getMovieSessionById(movieSesId);
+        return mapper.map(movieSessionsById, MovieSessionDto.class);
+    }
+
+    public void updateMovie(MovieDto movieDto){
+        log.info("update movie: " + movieDto);
+        Optional<Movie> movieOptional = movieDao.saveMovie(mapper.map(movieDto, Movie.class));
+        Movie updated = movieOptional.orElseThrow(() -> new EntitySaveDaoException("could not update movie" + movieDto));
+    }
+
+    public void deleteMovie(Long movieId){
+        log.info("delete movie by id: " + movieId);
+         movieDao.deleteMovie(movieId);
     }
 }

@@ -13,8 +13,8 @@
     <div class="row">
         <div class="col-md-4">
             <div class="img">
-                <h1 class="card-title"><c:out value="${requestScope.movie.title}"/></h1>
-                <img class="card-img-bottom" src="<c:out value="${requestScope.movie.photoUrl}"/>"
+                <h1 class="card-title"><c:out value="${movie.title}"/></h1>
+                <img class="card-img-bottom" src="<c:out value="${movie.photoUrl}"/>"
                      alt="movie image cap"
                      style="width:80%; position: center">
             </div>
@@ -23,17 +23,17 @@
             <h2><strong><fmt:message key="order.confirmation.title"/></strong></h2>
             <br>
             <h3><strong><fmt:message key="order.confirmation.movie.session.time"/></strong>
-                <c:out value="${requestScope.movieSession.date}"/> ---
-                <c:out value="${requestScope.movieSession.time}"/>
+                <c:out value="${movieSession.showDate}"/> ---
+                <c:out value="${movieSession.showTime}"/>
             </h3>
             <br>
             <h3><strong><fmt:message key="order.confirmation.order.price"/></strong><c:out
-                    value="${sessionScope.order.orderPrice}"/> <fmt:message key="order.price.currency"/></h3>
+                    value="${sessionScope.order.totalPrice}"/> <fmt:message key="order.price.currency"/></h3>
             <br>
             <h3>
                 <c:forEach items="${sessionScope.order.ticketList}" var="ticket">
                     <span><fmt:message key="order.row.number"/></span> : <span style="color: #830b21">
-                            <c:out value="${ticket.row.number}"/></span>
+                            <c:out value="${ticket.seat.line.number}"/></span>
                     <span><fmt:message key="order.seat.number"/></span> : <span style="color: #830b21">
                             <c:out value="${ticket.seat.number}"/></span>
                     <hr>
@@ -50,10 +50,10 @@
             </h5>
             <div class="row">
                 <div class="col-lg-12">
-                    <a href="${pageContext.request.contextPath}/cinema/confirmOrder?movieSesId=${requestScope.movieSession.id}">
+                    <a href="${pageContext.request.contextPath}/confirmOrder/${movieSession.id}">
                         <button type="submit" class="logout"><fmt:message key="order.confirm"/></button>
                     </a>
-                    <a href="${pageContext.request.contextPath}/cinema/cancelOrder">
+                    <a href="${pageContext.request.contextPath}/cancelOrder">
                         <button type="submit" class="logout"><fmt:message key="order.cancel"/></button>
                     </a>
                 </div>

@@ -4,9 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,21 +27,13 @@ public class MovieSession {
     @Column(name = "price")
     private int ticketPrice;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "movie_id")
     private Movie movie;
 
-    @OneToMany(mappedBy = "movieSession", cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private List<Ticket> ticketList;
+//    @OneToMany(mappedBy = "movieSession", cascade = CascadeType.ALL)
+//    @EqualsAndHashCode.Exclude
+//    @ToString.Exclude
+//    private List<Ticket> ticketList;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "movie_sessions_booked_seats",
-            joinColumns = { @JoinColumn(name = "movie_session_id") },
-            inverseJoinColumns = { @JoinColumn(name = "seat_id") })
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private List<Seat> bookedSeatsList;
 }

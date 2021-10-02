@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,20 +22,12 @@ public class Seat {
     @Column(name = "number")
     private int number;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "line_id")
     private Line line;
 
     @Transient
+    @EqualsAndHashCode.Exclude
     private Status status;
 
-    @OneToOne(mappedBy = "seat", cascade = CascadeType.ALL)
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private Ticket ticket;
-
-    @ManyToMany(mappedBy = "bookedSeatsList")
-    @EqualsAndHashCode.Exclude
-    @ToString.Exclude
-    private List<MovieSession> movieSession;
 }

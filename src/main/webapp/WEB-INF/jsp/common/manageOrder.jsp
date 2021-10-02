@@ -15,10 +15,17 @@
             <img src="<c:out value="${activeMovie.photoUrl}"/>" alt="movie image url"
                  style="vertical-align: middle" width=600 height=600>
             <span style="vertical-align: middle; display: inline-block; width: 400px;">
+                <c:if test="${bookedSeats == true}">
+                    <p class="errorsM"><fmt:message key="order.booked.seats.true"/></p>
+                </c:if>
+                <c:if test="${orderFalse == true}">
+                    <p class="errorsM"><fmt:message key="order.save.false"/></p>
+                </c:if>
                  <h3><fmt:message key="show.movie.session.table.title"/></h3>
                 <c:forEach items="${movieSessions}" var="movieSession">
                     <p>
-                        <a style="color: black" href="${pageContext.request.contextPath}/orderTickets/${movieSession.id}">
+                        <a style="color: black"
+                           href="${pageContext.request.contextPath}/orderTickets/${movieSession.id}">
                             <c:out value="${movieSession.showDate}"/> --
                             <c:out value="${movieSession.showTime}"/>
                             <fmt:message key="show.movie.session.price"/>

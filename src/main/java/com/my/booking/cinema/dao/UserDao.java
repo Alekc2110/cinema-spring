@@ -2,6 +2,8 @@ package com.my.booking.cinema.dao;
 
 import com.my.booking.cinema.model.User;
 
+import java.util.Optional;
+
 
 public interface UserDao {
 
@@ -9,5 +11,5 @@ public interface UserDao {
 
     boolean existsUserByEmail (String email);
 
-    User save(User user);
+    Optional<User> save(User user);
 }
