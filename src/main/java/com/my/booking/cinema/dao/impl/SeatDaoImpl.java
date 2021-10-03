@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,4 +38,10 @@ public class SeatDaoImpl implements SeatDao {
         log.info("returned optional seat from db by seatId: " + seatId);
         return seatRepository.findById(seatId);
     }
+
+//    @Override
+//    public List<Seat> getBookedSeatsByDate(LocalDate date) {
+//        log.info("returned all booked seats from db by date: " + date);
+//        return seatRepository.getAllBookedSeatsByDate(date);
+//    }
 }

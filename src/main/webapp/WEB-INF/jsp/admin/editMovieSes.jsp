@@ -6,59 +6,59 @@
 <html lang="${param.lang}">
 <jsp:include page="/WEB-INF/jsp/parts/head_tag.jsp"/>
 
-<form id="form-edit-icon" class="form-horizontal" method="POST" action="${pageContext.request.contextPath}/cinema/editMovieSession?movieSesId=${requestScope.movieSesEdit.id}">
+<form id="form-edit-icon" class="form-horizontal" method="POST" action="${pageContext.request.contextPath}/admin/${movieSesEdit.id}/editMovieSession">
     <fieldset>
         <!-- Form Name -->
-        <legend><c:out value="${requestScope.movieTitle}"/></legend>
+        <legend><c:out value="${movieTitle}"/></legend>
 
         <!-- Show_date input-->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="show_date"><fmt:message key="update.movie.session.showtime"/></label>
+            <label class="col-md-4 control-label" for="showDate"><fmt:message key="update.movie.session.showtime"/></label>
             <div class="col-md-5">
                 <input
-                        id="show_date"
-                        name="show_date"
-                        type="text"
+                        id="showDate"
+                        name="showDate"
+                        type="date"
                         class="form-control input-md"
                         data-pattern-error="<fmt:message key='data.non-valid'/>"
                         data-required-error="<fmt:message key='data.required'/>"
                         required pattern="^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
-                        value="<c:out value="${requestScope.movieSesEdit.date}"/>"
+                        value="<c:out value="${movieSesEdit.showDate}"/>"
                 >
             </div>
         </div>
 
         <!-- Show_time input-->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="show_time"><fmt:message key="update.movie.session.showtime"/></label>
+            <label class="col-md-4 control-label" for="showTime"><fmt:message key="update.movie.session.showtime"/></label>
             <div class="col-md-5">
                 <input
-                        id="show_time"
-                        name="show_time"
-                        type="text"
+                        id="showTime"
+                        name="showTime"
+                        type="time"
                         class="form-control input-md"
                         data-pattern-error="<fmt:message key='data.non-valid'/>"
                         data-required-error="<fmt:message key='data.required'/>"
                         required pattern="^[0-9]{2}:[0-9]{2}$"
-                        value="<c:out value="${requestScope.movieSesEdit.time}"/>"
+                        value="<c:out value="${movieSesEdit.showTime}"/>"
                 >
             </div>
         </div>
 
         <!-- Price-->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="price"><fmt:message key="update.movie.session.ticket.price"/></label>
+            <label class="col-md-4 control-label" for="ticketPrice"><fmt:message key="update.movie.session.ticket.price"/></label>
             <div class="col-md-5">
                 <input
-                        id="price"
-                        name="price"
+                        id="ticketPrice"
+                        name="ticketPrice"
                         type="text"
                         class="form-control input-md"
                         data-pattern-error="<fmt:message key='data.non-valid'/>"
                         data-required-error="<fmt:message key='data.required'/>"
                         required pattern="^[0-9]{1,3}$"
 
-                        value="<c:out value="${requestScope.movieSesEdit.ticketPrice}"/>"
+                        value="<c:out value="${movieSesEdit.ticketPrice}"/>"
                 />
             </div>
         </div>
@@ -68,7 +68,7 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="save"></label>
             <div class="col-md-4">
-                <button id="save" type="submit" name="save" class="btn btn-primary"><fmt:message key="update.movie.session.button.save"/></button>
+                <button id="save" type="submit" class="btn btn-primary"><fmt:message key="update.movie.session.button.save"/></button>
             </div>
         </div>
     </fieldset>
@@ -77,7 +77,7 @@
 <div class="form-group">
     <label class="col-md-4 control-label" for="close"></label>
     <div class="col-md-4">
-        <a href="${pageContext.request.contextPath}/cinema/manageMovie">
+        <a href="${pageContext.request.contextPath}/admin/manageMovie">
             <button  id="close" name="close" data-dismiss="modal" aria-label="Close" class="btn btn-info"><fmt:message key="update.movie.session.button.close"/></button>
         </a>
     </div>

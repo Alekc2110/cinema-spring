@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page isELIgnored="false" %>
 
 <!DOCTYPE html>
@@ -23,7 +24,7 @@
                 <c:out value="${movieSession.showTime}"/>
             </h3>
 
-            <form method="POST" action="${pageContext.request.contextPath}/addOrder/${movieSession.id}">
+            <form:form method="POST" action="${pageContext.request.contextPath}/addOrder/${movieSession.id}">
                 <div class="grid-container">
 
                     <c:forEach items="${allSeats}" var="seat">
@@ -49,7 +50,7 @@
                     <div style="height: 100px"></div>
                 </div>
 
-            </form>
+            </form:form>
 
         </div>
     </header>

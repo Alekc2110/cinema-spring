@@ -10,9 +10,11 @@ import java.time.LocalTime;
 @ToString
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class TableSessionDTO {
     private Long id;
     private String movieTitle;
     private LocalDate date;
     private LocalTime time;
+
 }

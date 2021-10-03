@@ -51,14 +51,14 @@
 
         <li class="nav-item">
             <sec:authorize access="hasAnyRole('ADMIN', 'USER')">
-                <a class="nav-link" href="${pageContext.request.contextPath}/user/show/MovieTable">
+                <a class="nav-link" href="${pageContext.request.contextPath}/user/show/movieTable">
                     <fmt:message key="nav.bar.all.movies.table"/></a>
             </sec:authorize>
         </li>
 
         <li class="nav-item">
             <sec:authorize access="hasRole('USER')">
-                <a class="nav-link" href="${pageContext.request.contextPath}/cinema/movieTimeTable">
+                <a class="nav-link" href="${pageContext.request.contextPath}/user/show/timeTable">
                     <fmt:message key="nav.bar.all.movies.timetable"/></a>
             </sec:authorize>
         </li>

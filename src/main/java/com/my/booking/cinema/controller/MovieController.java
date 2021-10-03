@@ -38,7 +38,7 @@ public class MovieController {
     @GetMapping("/manageMovieOrder/{movieId}")
     public String movieOrder(@PathVariable Long movieId, Model model) {
         MovieDto movieById = movieService.findMovieById(movieId);
-        List<MovieSessionDto> movieSesByMovieId = movieService.findMovieSesByMovieId(movieById);
+        List<MovieSessionDto> movieSesByMovieId = movieService.findMovieSesByMovieId(movieById.getId());
         log.info("return manageOrder page in movieController by movie id: " + movieId);
         model.addAttribute("activeMovie", movieById);
         model.addAttribute("movieSessions", movieSesByMovieId);

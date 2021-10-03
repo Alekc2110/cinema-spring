@@ -16,9 +16,9 @@
                 <li>
                     <div class="grid-containerTable">
                         <div class="grid-itemTable">
-                            <h2><c:out value="${requestScope.movieListNow.get(0).date}"/></h2>
+                            <h2><c:out value="${movieListNow.get(0).date}"/></h2>
                             <h4>
-                                <c:forEach items="${requestScope.movieListNow}" var="timeTableDto">
+                                <c:forEach items="${movieListNow}" var="timeTableDto">
                                     <strong style="color: #a71d2a"><c:out value="${timeTableDto.time}"/></strong> : <c:out value="${timeTableDto.movieTitle}"/>
                                     <br>
                                 </c:forEach>
@@ -26,9 +26,9 @@
                         </div>
 
                         <div class="grid-itemTable">
-                            <h2><c:out value="${requestScope.movieListTomorrow.get(0).date}"/></h2>
+                            <h2><c:out value="${movieListTomorrow.get(0).date}"/></h2>
                             <h4>
-                                <c:forEach items="${requestScope.movieListTomorrow}" var="timeTableDto">
+                                <c:forEach items="${movieListTomorrow}" var="timeTableDto">
                                     <strong style="color: #a71d2a"><c:out value="${timeTableDto.time}"/></strong> : <c:out value="${timeTableDto.movieTitle}"/>
                                     <br>
                                 </c:forEach>
@@ -36,9 +36,9 @@
                         </div>
 
                         <div class="grid-itemTable">
-                            <h2><c:out value="${requestScope.movieListNowPlTwo.get(0).date}"/></h2>
+                            <h2><c:out value="${movieListNowPlTwo.get(0).date}"/></h2>
                             <h4>
-                                <c:forEach items="${requestScope.movieListNowPlTwo}" var="timeTableDto">
+                                <c:forEach items="${movieListNowPlTwo}" var="timeTableDto">
                                     <strong style="color: #a71d2a"><c:out value="${timeTableDto.time}"/></strong> : <c:out value="${timeTableDto.movieTitle}"/>
                                     <br>
                                 </c:forEach>
@@ -46,9 +46,9 @@
                         </div>
 
                         <div class="grid-itemTable">
-                            <h2><c:out value="${requestScope.movieListNowPlThree.get(0).date}"/></h2>
+                            <h2><c:out value="${movieListNowPlThree.get(0).date}"/></h2>
                             <h4>
-                                <c:forEach items="${requestScope.movieListNowPlThree}" var="timeTableDto">
+                                <c:forEach items="${movieListNowPlThree}" var="timeTableDto">
                                     <strong style="color: #a71d2a"><c:out value="${timeTableDto.time}"/></strong> : <c:out value="${timeTableDto.movieTitle}"/>
                                     <br>
                                 </c:forEach>
@@ -56,9 +56,9 @@
                         </div>
 
                         <div class="grid-itemTable">
-                            <h2><c:out value="${requestScope.movieListNowPlFour.get(0).date}"/></h2>
+                            <h2><c:out value="${movieListNowPlFour.get(0).date}"/></h2>
                             <h4>
-                                <c:forEach items="${requestScope.movieListNowPlFour}" var="timeTableDto">
+                                <c:forEach items="${movieListNowPlFour}" var="timeTableDto">
                                     <strong style="color: #a71d2a"><c:out value="${timeTableDto.time}"/></strong> : <c:out value="${timeTableDto.movieTitle}"/>
                                     <br>
                                 </c:forEach>
@@ -66,9 +66,9 @@
                         </div>
 
                         <div class="grid-itemTable">
-                            <h2><c:out value="${requestScope.movieListNowPlFive.get(0).date}"/></h2>
+                            <h2><c:out value="${movieListNowPlFive.get(0).date}"/></h2>
                             <h4>
-                                <c:forEach items="${requestScope.movieListNowPlFive}" var="timeTableDto">
+                                <c:forEach items="${movieListNowPlFive}" var="timeTableDto">
                                     <strong style="color: #a71d2a"><c:out value="${timeTableDto.time}"/></strong> : <c:out value="${timeTableDto.movieTitle}"/>
                                     <br>
                                 </c:forEach>
@@ -76,18 +76,16 @@
                         </div>
 
                         <div class="grid-itemTable">
-                            <h2><c:out value="${requestScope.movieListNowPlSix.get(0).date}"/></h2>
+                            <h2><c:out value="${movieListNowPlSix.get(0).date}"/></h2>
                             <h4>
-                                <c:forEach items="${requestScope.movieListNowPlSix}" var="timeTableDto">
+                                <c:forEach items="${movieListNowPlSix}" var="timeTableDto">
                                     <strong style="color: #a71d2a"><c:out value="${timeTableDto.time}"/></strong> : <c:out value="${timeTableDto.movieTitle}"/>
                                     <br>
                                 </c:forEach>
                             </h4>
                         </div>
-
-
                     </div>
-                    <img src="${pageContext.request.contextPath}/img/multiplex_main.jpg" class="desktop-slide" width="1680"
+                    <img src="/resources/img/multiplex_main.jpg" class="desktop-slide" width="1680"
                          height="1050" alt="main_picture">
                 </li>
             </ul>

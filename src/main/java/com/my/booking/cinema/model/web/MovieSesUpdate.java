@@ -1,6 +1,9 @@
-package com.my.booking.cinema.model.dto;
+package com.my.booking.cinema.model.web;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -10,13 +13,11 @@ import java.time.LocalTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MovieSessionDto {
+public class MovieSesUpdate {
     private Long id;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate showDate;
+    @DateTimeFormat(pattern = "HH:mm")
     private LocalTime showTime;
     private int ticketPrice;
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-    private MovieDto movie;
-
 }

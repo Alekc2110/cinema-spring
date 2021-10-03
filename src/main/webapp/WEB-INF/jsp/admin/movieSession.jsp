@@ -20,28 +20,13 @@
     <c:if test="${param.movSessionBadInput == true}">
         <p class="errorsM"><fmt:message key="update.movie.session.bad.input"/></p>
     </c:if>
-    <c:if test="${param.movSessionSuccessUpdate == true}">
-        <p class="alert-success"><fmt:message key="update.movie.session.successful"/></p>
-    </c:if>
-    <c:if test="${param.movSessionSuccessUpdate == false}">
-        <p class="errorsM"><fmt:message key="update.movie.session.false"/></p>
-    </c:if>
 
-    <c:if test="${param.movieSesSuccessDel == true}">
-        <p class="alert-success"><fmt:message key="delete.movie.session.successful"/></p>
-    </c:if>
-    <c:if test="${param.movieSesSuccessDel == false}">
-        <p class="errorsM"><fmt:message key="delete.movie.session.false"/></p>
-    </c:if>
+<%--    <c:if test="${param.successDelMS == false}">--%>
+<%--        <p class="errorsM"><fmt:message key="delete.movie.session.false"/></p>--%>
+<%--    </c:if>--%>
 
-    <c:if test="${param.successAdd == true}">
-        <p class="alert-success"><fmt:message key="add.movie.session.successful"/></p>
-    </c:if>
-    <c:if test="${param.successAdd == false}">
-        <p class="errorsM"><fmt:message key="add.movie.session.false"/></p>
-    </c:if>
 
-    <a href="${pageContext.request.contextPath}/cinema/addMovieSession?movieId=${requestScope.movieId}">
+    <a href="${pageContext.request.contextPath}/admin/movieSession/new/${movieId}">
         <button type="button" class="btn btn-primary btn-lg btn-block"><fmt:message key="add.movie.session.button.add"/></button>
     </a>
     <table id="movie_sessions" class="table table-bordered table-sm">
@@ -55,18 +40,18 @@
         </tr>
         </thead>
         <tbody id="tbody">
-        <c:forEach items="${requestScope.moviesSesList}" var="movieSession">
+        <c:forEach items="${moviesSesList}" var="movieSession">
             <tr>
                 <td>
-                    <c:out value="${movieSession.date}"/>
+                    <c:out value="${movieSession.showDate}"/>
                 </td>
                 <td>
-                    <c:out value="${movieSession.time}"/>
+                    <c:out value="${movieSession.showTime}"/>
                 </td>
                 <td><c:out value="${movieSession.ticketPrice}"/></td>
-                <td><a href="${pageContext.request.contextPath}/cinema/editMovieSession?id=${movieSession.id}">
+                <td><a href="${pageContext.request.contextPath}/admin/${movieSession.id}/editMovieSession">
                     <fmt:message key="movie.session.nav.bar.edit"/></a></td>
-                <td><a href="${pageContext.request.contextPath}/cinema/deleteMovieSession?movieSesId=${movieSession.id}">
+                <td><a href="${pageContext.request.contextPath}/admin/${movieSession.id}/deleteMovieSession">
                     <fmt:message key="movie.session.nav.bar.delete"/></a></td>
             </tr>
         </c:forEach>

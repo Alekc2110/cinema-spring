@@ -58,13 +58,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
-//    @Override
-//    public void configure(WebSecurity web) throws Exception {
-//        web.ignoring().antMatchers("resources/js/**");
-//        web.ignoring().antMatchers("resources/img/**");
-//        web.ignoring().antMatchers("resources/css/**");
-//    }
-
 
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {

@@ -15,7 +15,7 @@
 
     <div class="form-group">
         <form id="form-edit-icon" class="form-horizontal" method="POST"
-              action="${pageContext.request.contextPath}/user/show/MovieTable">
+              action="${pageContext.request.contextPath}/user/show/movieTable">
             <label for="sel1"><fmt:message key="sort.by.table.name"/></label>
             <select class="form-table" name="option" id="sel1">
                 <option></option>

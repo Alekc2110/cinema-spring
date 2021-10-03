@@ -37,6 +37,22 @@
     <c:if test="${param.successAdd == false}">
         <p class="errorsM"><fmt:message key="add.movie.false"/></p>
     </c:if>
+    <c:if test="${param.successAddMS == true}">
+        <p class="alert-success"><fmt:message key="add.movie.session.successful"/></p>
+    </c:if>
+    <c:if test="${param.successAddMS == false}">
+        <p class="errorsM"><fmt:message key="add.movie.session.false"/></p>
+    </c:if>
+    <c:if test="${param.successUpdateMS == true}">
+        <p class="alert-success"><fmt:message key="update.movie.session.successful"/></p>
+    </c:if>
+    <c:if test="${param.successUpdateMS == false}">
+        <p class="errorsM"><fmt:message key="update.movie.session.false"/></p>
+    </c:if>
+    <c:if test="${param.successDelMS == true}">
+        <p class="alert-success"><fmt:message key="delete.movie.session.successful"/></p>
+    </c:if>
+
     <a href="${pageContext.request.contextPath}/admin/movie/new">
     <button type="button" class="btn btn-primary btn-lg btn-block"><fmt:message key="add.movie.button.add"/></button>
     </a>

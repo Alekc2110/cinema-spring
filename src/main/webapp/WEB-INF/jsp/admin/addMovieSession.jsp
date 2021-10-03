@@ -7,19 +7,19 @@
 <jsp:include page="/WEB-INF/jsp/parts/head_tag.jsp"/>
 
 <form id="form-edit-icon" class="form-horizontal" method="POST"
-      action="${pageContext.request.contextPath}/cinema/addMovieSession?movieId=${requestScope.movieId}">
+      action="${pageContext.request.contextPath}/admin/movieSession/new/${movieId}">
     <fieldset>
         <!-- Form Name -->
         <legend><fmt:message key="add.movie.session.table.title"/></legend>
 
         <!-- Show_date input-->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="show_date"><fmt:message key="add.movie.session.table.show.date"/></label>
+            <label class="col-md-4 control-label" for="showDate"><fmt:message key="add.movie.session.table.show.date"/></label>
             <div class="col-md-5">
                 <input
-                        id="show_date"
-                        name="show_date"
-                        type="text"
+                        id="showDate"
+                        name="showDate"
+                        type="date"
                         class="form-control input-md"
                         required pattern="^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
                 >
@@ -28,12 +28,12 @@
 
         <!-- Show_time input-->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="show_time"><fmt:message key="add.movie.session.table.show.time"/></label>
+            <label class="col-md-4 control-label" for="showTime"><fmt:message key="add.movie.session.table.show.time"/></label>
             <div class="col-md-5">
                 <input
-                        id="show_time"
-                        name="show_time"
-                        type="text"
+                        id="showTime"
+                        name="showTime"
+                        type="time"
                         class="form-control input-md"
                         required pattern="^[0-9]{2}:[0-9]{2}$"
                 >
@@ -42,11 +42,11 @@
 
         <!-- Price-->
         <div class="form-group">
-            <label class="col-md-4 control-label" for="price"><fmt:message key="add.movie.session.table.price"/></label>
+            <label class="col-md-4 control-label" for="ticketPrice"><fmt:message key="add.movie.session.table.price"/></label>
             <div class="col-md-5">
                 <input
-                        id="price"
-                        name="price"
+                        id="ticketPrice"
+                        name="ticketPrice"
                         type="text"
                         class="form-control input-md"
                         required pattern="^[0-9]{1,3}$"
@@ -59,7 +59,7 @@
         <div class="form-group">
             <label class="col-md-4 control-label" for="save"></label>
             <div class="col-md-4">
-                <button id="save" type="submit" name="save" class="btn btn-primary">
+                <button id="save" type="submit" class="btn btn-primary">
                     <fmt:message key="add.movie.session.button.save"/></button>
             </div>
         </div>
@@ -69,7 +69,7 @@
 <div class="form-group">
     <label class="col-md-4 control-label" for="close"></label>
     <div class="col-md-4">
-        <a href="${pageContext.request.contextPath}/cinema/manageMovieSession">
+        <a href="${pageContext.request.contextPath}/admin/manageMovieSession/${movieId}">
             <button id="close" name="close" data-dismiss="modal" aria-label="Close" class="btn btn-info"><fmt:message
                     key="add.movie.session.button.close"/></button>
         </a>

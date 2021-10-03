@@ -3,6 +3,7 @@ package com.my.booking.cinema.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -30,10 +31,5 @@ public class MovieSession {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "movie_id")
     private Movie movie;
-
-//    @OneToMany(mappedBy = "movieSession", cascade = CascadeType.ALL)
-//    @EqualsAndHashCode.Exclude
-//    @ToString.Exclude
-//    private List<Ticket> ticketList;
 
 }
