@@ -1,78 +1,68 @@
 package com.my.booking.cinema.controller;
 
+import com.my.booking.cinema.model.Movie;
 import com.my.booking.cinema.model.dto.TicketDto;
 import com.my.booking.cinema.model.dto.UserDto;
 import com.my.booking.cinema.model.web.TableSessionDTO;
 import com.my.booking.cinema.service.MovieService;
+import com.my.booking.cinema.service.OrderService;
 import com.my.booking.cinema.service.TicketService;
 import com.my.booking.cinema.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import static com.my.booking.cinema.controller.Constants.*;
 
 @AllArgsConstructor
 @Slf4j
 @RequestMapping("/user/show")
 @Controller
 public class UserController {
-    private static final String MOVIE_LIST_ATTRIBUTE = "movieList";
-    private static final String TICKET_LIST_ATTRIBUTE = "ticketList";
-    private static final String SORT_OPTION = "option";
-    private static final String SORT_BY_TITLE = "title";
-    private static final String SORT_BY_DATE = "date";
-    private static final String SORT_BY_TIME = "time";
-    private static final String MOVIE_SES_LIST_TODAY = "movieListNow";
-    private static final String MOVIE_SES_LIST_TOM = "movieListTomorrow";
-    private static final String MOVIE_SES_LIST_NOW2 = "movieListNowPlTwo";
-    private static final String MOVIE_SES_LIST_NOW3 = "movieListNowPlThree";
-    private static final String MOVIE_SES_LIST_NOW4 = "movieListNowPlFour";
-    private static final String MOVIE_SES_LIST_NOW5 = "movieListNowPlFive";
-    private static final String MOVIE_SES_LIST_NOW6 = "movieListNowPlSix";
 
     private final MovieService movieService;
     private final UserService userService;
     private final TicketService ticketService;
+    private final OrderService orderService;
 
     @GetMapping("/movieTable")
-    public String showMovieTable(Model model) {
-        final List<TableSessionDTO> viewList = movieService.returnViewSessionList();
-        log.info("return movie table page in userController with all sessions list: " + viewList);
-        model.addAttribute(MOVIE_LIST_ATTRIBUTE, viewList);
-        return "user/showMoviesTable";
-    }
-
-    @PostMapping("/movieTable")
-    public String showMovieTable(@ModelAttribute("option") String option, Model model) {
-        final List<TableSessionDTO> viewList = movieService.returnViewSessionList();
-        if(option != null && !option.isEmpty()){
-            if (option.equals(SORT_BY_TITLE)) {
+    public String showMovieTable(Model model, @RequestParam(defaultValue = "0", name = "page") Integer pageNo,
+                                 @RequestParam(defaultValue = "5", name = "size") Integer pageSize,
+                                 @RequestParam(defaultValue = "", name = "option") String sortOption) {
+        final Page<Movie> pageMovies = movieService.findAllMovies(pageNo, pageSize);
+        final int totalPages = pageMovies.getTotalPages();
+        log.info("return page movies: " + pageMovies);
+        log.info("return total pages number: " + totalPages);
+        final List<TableSessionDTO> viewList = movieService.returnViewList(pageMovies);
+        if (sortOption != null && !sortOption.isEmpty()) {
+            if (sortOption.equals(SORT_BY_TITLE)) {
                 viewList.sort(Comparator.comparing(TableSessionDTO::getMovieTitle));
                 model.addAttribute(SORT_OPTION, SORT_BY_TITLE);
             }
-            if (option.equals(SORT_BY_DATE)) {
+            if (sortOption.equals(SORT_BY_DATE)) {
                 viewList.sort(Comparator.comparing(TableSessionDTO::getDate));
                 model.addAttribute(SORT_OPTION, SORT_BY_DATE);
             }
-            if (option.equals(SORT_BY_TIME)) {
+            if (sortOption.equals(SORT_BY_TIME)) {
                 viewList.sort(Comparator.comparing(TableSessionDTO::getTime));
                 model.addAttribute(SORT_OPTION, SORT_BY_TIME);
             }
-
         }
-        log.info("return movie table page in userController with sorted sessions list: " + viewList);
-        model.addAttribute(MOVIE_LIST_ATTRIBUTE, viewList);
+
+        log.info("return movie table page in userController with all sessions list: " + viewList);
+        model.addAttribute(DATA, viewList);
+        model.addAttribute(RECORD_PER_PAGE_AT, pageMovies.getSize());
+        model.addAttribute(TOTAL_ELEMENTS, pageMovies.getTotalElements());
+        model.addAttribute(PAGE_NUMBER_AT, pageMovies.getNumber());
+        model.addAttribute(PAGE_NUMBERS_ATTRIBUTE, pageMovies.getTotalPages());
         return "user/showMoviesTable";
     }
 
@@ -104,6 +94,21 @@ public class UserController {
         model.addAttribute(MOVIE_SES_LIST_NOW5, timeTableNowPlus5);
         model.addAttribute(MOVIE_SES_LIST_NOW6, timeTableNowPlus6);
         return "user/timeTable";
+    }
+
+    @GetMapping("/profile")
+    public String profilePage(Principal principal, Model model, @RequestParam(defaultValue = "", name = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        final UserDto userByName = userService.findUserByName(principal.getName());
+        log.info("return userAccount page in MainController by user name: " + userByName);
+        model.addAttribute(USER, userByName);
+        if(date != null && !date.toString().isEmpty()) {
+            final int countBookedSeat = orderService.getCountBookedSeatByDate(date);
+            final float percentage = countBookedSeat / (float) HALL_CAPACITY * PERCENTAGE_100;
+            log.info("calculate percentage of attendance: " + percentage);
+            model.addAttribute(PERCENTAGE_BOOKED_SEATS, String.format("%.0f", percentage));
+
+        }
+        return "user/userAccount";
     }
 
 }

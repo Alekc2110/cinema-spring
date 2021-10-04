@@ -7,7 +7,5 @@ import java.util.List;
 public interface TicketDao {
     List<Ticket> findTicketsBySession(Long movieSesId);
 
-    List<Ticket> saveTickets(List<Ticket> tickets);
-
     List<Ticket> findTicketByUserId(Long userId);
 }

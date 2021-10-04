@@ -20,16 +20,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static com.my.booking.cinema.controller.Constants.*;
+
 @AllArgsConstructor
 @Slf4j
 @Controller
 public class OrderController {
-    private static final String ORDER_SESSION_ATTR = "order";
-    private static final String MOVIE_ATTR = "movie";
-    private static final String MOVIE_SESSION_ATTR = "movieSession";
-    private static final String SEATS_LIST_ATTR = "allSeats";
-    private static final String ALREADY_BOOKED_SEAT = "bookedSeats";
-    private static final String SAVE_ORDER_FALSE = "orderFalse";
 
     private final OrderService orderService;
     private final MovieService movieService;

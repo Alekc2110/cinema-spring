@@ -12,7 +12,7 @@
 
     <title>Error 404</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="${pageContext.request.contextPath}/css/error.css"/>
+    <link type="text/css" rel="stylesheet" href="/resources/css/error.css"/>
 </head>
 
 <body>

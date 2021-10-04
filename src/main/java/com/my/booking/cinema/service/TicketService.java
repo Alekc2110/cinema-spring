@@ -25,13 +25,6 @@ public class TicketService {
         return ticketsBySession.stream().map(ticket-> mapper.map(ticket, TicketDto.class)).collect(Collectors.toList());
     }
 
-    @Transactional
-    public boolean saveTickets(List<TicketDto> tickets){
-        List<Ticket> ticketsList = tickets.stream().map(ticketDto -> mapper.map(ticketDto, Ticket.class)).collect(Collectors.toList());
-        List<Ticket> savedList = ticketDao.saveTickets(ticketsList);
-        return ticketsList.size() == savedList.size();
-    }
-
     public List<TicketDto> findTicketByUserId(Long userId){
         List<Ticket> ticketsBySession = ticketDao.findTicketByUserId(userId);
         return ticketsBySession.stream().map(ticket-> mapper.map(ticket, TicketDto.class)).collect(Collectors.toList());

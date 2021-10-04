@@ -9,7 +9,7 @@
 
 <div id="wrapper">
     <header id="header">
-        <jsp:include page="/WEB-INF/jsp/parts/header1.jsp"/>
+        <jsp:include page="/WEB-INF/jsp/parts/header.jsp"/>
         <div style="width: 100%;" class="container">
 
             <img src="<c:out value="${activeMovie.photoUrl}"/>" alt="movie image url"

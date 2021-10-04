@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import static com.my.booking.cinema.controller.Constants.*;
+
 @AllArgsConstructor
 @Slf4j
 @Controller
@@ -27,7 +29,7 @@ public class LoginRegistrationController {
 
     @PostMapping("/login")
     public String loginPostPage(@ModelAttribute("userForm") LoginRequest userForm) {
-    return "redirect:/profile";
+    return "redirect:/user/show/profile";
     }
 
     @GetMapping("/registration")
@@ -42,11 +44,11 @@ public class LoginRegistrationController {
             return "common/registerUser";
         }
         if (!regForm.getPassword().equals(regForm.getConfirmPassword())){
-            model.addAttribute("passwordError", "passwords not matches");
+            model.addAttribute(PASS_ERROR, "passwords not matches");
             return "common/registerUser";
         }
         if (!userService.saveUser(regForm)){
-            model.addAttribute("usernameError", "User with this email already exists");
+            model.addAttribute(USER_SAVE_ERROR, "User with this email already exists");
             return "common/registerUser";
         }
 

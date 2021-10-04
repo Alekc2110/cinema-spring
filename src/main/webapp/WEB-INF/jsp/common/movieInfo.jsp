@@ -9,7 +9,7 @@
 
 <div id="wrapper">
     <header id="header">
-        <jsp:include page="/WEB-INF/jsp/parts/header1.jsp"/>
+        <jsp:include page="/WEB-INF/jsp/parts/header.jsp"/>
         <div class="card">
             <div class="card-body">
                 <h1 class="card-title"><c:out value="${movie.title}"/></h1>

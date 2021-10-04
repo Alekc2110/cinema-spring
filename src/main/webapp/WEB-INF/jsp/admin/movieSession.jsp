@@ -21,13 +21,9 @@
         <p class="errorsM"><fmt:message key="update.movie.session.bad.input"/></p>
     </c:if>
 
-<%--    <c:if test="${param.successDelMS == false}">--%>
-<%--        <p class="errorsM"><fmt:message key="delete.movie.session.false"/></p>--%>
-<%--    </c:if>--%>
-
-
     <a href="${pageContext.request.contextPath}/admin/movieSession/new/${movieId}">
-        <button type="button" class="btn btn-primary btn-lg btn-block"><fmt:message key="add.movie.session.button.add"/></button>
+        <button type="button" class="btn btn-primary btn-lg btn-block"><fmt:message
+                key="add.movie.session.button.add"/></button>
     </a>
     <table id="movie_sessions" class="table table-bordered table-sm">
         <thead class="thead-dark">
@@ -40,7 +36,8 @@
         </tr>
         </thead>
         <tbody id="tbody">
-        <c:forEach items="${moviesSesList}" var="movieSession">
+        <c:if test="${data.size() > 0 }">
+        <c:forEach items="${data}" var="movieSession">
             <tr>
                 <td>
                     <c:out value="${movieSession.showDate}"/>
@@ -55,8 +52,23 @@
                     <fmt:message key="movie.session.nav.bar.delete"/></a></td>
             </tr>
         </c:forEach>
+        </c:if>
         </tbody>
     </table>
 </div>
+<c:if test="${data.size() > 0 }">
+    <nav aria-label="...">
+        <ul class="pagination pagination-sm justify-content-center">
+            <c:forEach var="page" begin="0" end="${totalPages-1}">
+                <li class="page-item">
+                    <a class="page-link"
+                       href="${pageContext.request.contextPath}/admin/manageMovieSession/${movieId}?page=${page}&size=${size}">
+                        <c:out value="${page+1}"/></a>
+                </li>
+            </c:forEach>
+        </ul>
+    </nav>
+</c:if>
+
 </body>
 </html>

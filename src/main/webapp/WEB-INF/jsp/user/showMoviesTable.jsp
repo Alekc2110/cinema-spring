@@ -14,7 +14,7 @@
     </header>
 
     <div class="form-group">
-        <form id="form-edit-icon" class="form-horizontal" method="POST"
+        <form id="form-edit-icon" class="form-horizontal" method="GET"
               action="${pageContext.request.contextPath}/user/show/movieTable">
             <label for="sel1"><fmt:message key="sort.by.table.name"/></label>
             <select class="form-table" name="option" id="sel1">
@@ -43,7 +43,8 @@
         </tr>
         </thead>
         <tbody id="tbody">
-        <c:forEach items="${movieList}" var="showMovie" >
+        <c:if test="${data.size() > 0 }">
+        <c:forEach items="${data}" var="showMovie">
             <tr>
                 <td><c:out value="${showMovie.movieTitle}"/></td>
                 <td><c:out value="${showMovie.date}"/></td>
@@ -53,20 +54,24 @@
                     <fmt:message key="show.movie.table.details.link"/></a></td>
             </tr>
         </c:forEach>
+        </c:if>
         </tbody>
     </table>
 </div>
-<%--<nav aria-label="...">--%>
-<%--    <ul class="pagination pagination-sm justify-content-center">--%>
-<%--        <c:forEach var="pagNumber" begin="1" end="${requestScope.pageNumbers}">--%>
-<%--            <li class="page-item">--%>
-<%--                <a class="page-link"--%>
-<%--                   href="${pageContext.request.contextPath}/cinema/showMovieTable?pagination=${pagNumber}">--%>
-<%--                    <c:out value="${pagNumber}"/></a>--%>
-<%--            </li>--%>
-<%--        </c:forEach>--%>
-<%--    </ul>--%>
-<%--</nav>--%>
+
+<c:if test="${data.size() > 0 }">
+<nav aria-label="...">
+    <ul class="pagination pagination-sm justify-content-center">
+        <c:forEach var="page" begin="0" end="${totalPages-1}">
+            <li class="page-item">
+                <a class="page-link"
+                   href="${pageContext.request.contextPath}/user/show/movieTable?page=${page}&size=${size}">
+                    <c:out value="${page+1}"/></a>
+            </li>
+        </c:forEach>
+    </ul>
+</nav>
+</c:if>
 
 </body>
 </html>

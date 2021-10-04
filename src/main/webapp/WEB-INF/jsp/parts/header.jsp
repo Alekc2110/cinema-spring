@@ -2,7 +2,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page isELIgnored="false" %>
-<%@ page isELIgnored="false" %>
+
 
 <div style="margin: 0; padding-left: 0" class="container justify-content-start">
     <a href="${pageContext.request.contextPath}/home" id="logo" title="HOME_PAGE">
@@ -16,7 +16,7 @@
             <div>
                 <h4>
                     <sec:authorize access="hasAnyRole('ADMIN', 'USER')">
-                        <a href="${pageContext.request.contextPath}/profile">
+                        <a href="${pageContext.request.contextPath}user/show/profile">
                             <fmt:message key="nav.bar.profile"/></a>
                     </sec:authorize>
                 </h4>

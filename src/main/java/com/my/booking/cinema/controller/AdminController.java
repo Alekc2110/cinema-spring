@@ -1,6 +1,8 @@
 package com.my.booking.cinema.controller;
 
 import com.my.booking.cinema.exception.EntitySaveDaoException;
+import com.my.booking.cinema.model.Movie;
+import com.my.booking.cinema.model.MovieSession;
 import com.my.booking.cinema.model.dto.MovieDto;
 import com.my.booking.cinema.model.dto.MovieSessionDto;
 import com.my.booking.cinema.model.web.MovieCreateDto;
@@ -10,6 +12,8 @@ import com.my.booking.cinema.service.MovieService;
 import com.my.booking.cinema.service.OrderService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,33 +26,27 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
+import static com.my.booking.cinema.controller.Constants.*;
+
 @AllArgsConstructor
 @Slf4j
 @RequestMapping("/admin")
 @Controller
 public class AdminController {
-    private static final String UPDATE_SUCCESS = "successUpdate";
-    private static final String UPDATE_MS_SUCCESS = "successUpdateMS";
-    private static final String ADD_SUCCESS_MS = "successAddMS";
-    private static final String MOVIE_EDIT = "movieEdit";
-    private static final String MOVIE_SES_EDIT = "movieSesEdit";
-    private static final String DELETE_SUCCESS = "successDel";
-    private static final String DELETE_MS_SUCCESS = "successDelMS";
-    private static final int PERCENTAGE_100 = 100;
-    private static final int HALL_CAPACITY = 50;
-    private static final String PERCENTAGE_BOOKED_SEATS = "percentage";
-    private static final String MOVIE_S_LIST_ATTRIBUTE = "moviesSesList";
-    private static final String MOVIE_ID = "movieId";
-    private static final String MOVIE_TITLE = "movieTitle";
 
     private final MovieService movieService;
     private final OrderService orderService;
 
     @GetMapping("/manageMovie")
-    public String manageMovies(Model model) {
-        List<MovieDto> allMoviesDto = movieService.findAllMovies();
-        log.info("return showMovies page in adminController with all movies list: " + allMoviesDto);
-        model.addAttribute("movies", allMoviesDto);
+    public String manageMovies(Model model, @RequestParam(defaultValue = "0", name = "page") Integer pageNo,
+                               @RequestParam(defaultValue = "3", name = "size") Integer pageSize) {
+        final Page<Movie> allMoviesPage = movieService.findAllMovies(pageNo, pageSize);
+        log.info("return showMovies page in adminController with all movies list: " + allMoviesPage);
+        model.addAttribute(DATA, allMoviesPage.getContent());
+        model.addAttribute(RECORD_PER_PAGE_AT, allMoviesPage.getSize());
+        model.addAttribute(TOTAL_ELEMENTS, allMoviesPage.getTotalElements());
+        model.addAttribute(PAGE_NUMBER_AT, allMoviesPage.getNumber());
+        model.addAttribute(PAGE_NUMBERS_ATTRIBUTE, allMoviesPage.getTotalPages());
         return "admin/showMovies";
     }
 
@@ -104,21 +102,28 @@ public class AdminController {
     }
 
     @GetMapping("/manageMovieSession/{movieId}")
-    public String manageMovieSession(@PathVariable Long movieId, Model model) {
-        List<MovieSessionDto> movieSesList = movieService.findMovieSesByMovieId(movieId);
-        model.addAttribute(MOVIE_S_LIST_ATTRIBUTE, movieSesList);
+    public String manageMovieSession(@PathVariable Long movieId, @RequestParam(defaultValue = "0", name = "page") Integer pageNo,
+                                     @RequestParam(defaultValue = "5", name = "size") Integer pageSize, Model model) {
+        Page<MovieSession> movieSesList = movieService.findMovieSesByMovieId(movieId, pageNo, pageSize);
         model.addAttribute(MOVIE_ID, movieId);
+        model.addAttribute(DATA, movieSesList.getContent());
+        model.addAttribute(RECORD_PER_PAGE_AT, movieSesList.getSize());
+        model.addAttribute(TOTAL_ELEMENTS, movieSesList.getTotalElements());
+        model.addAttribute(PAGE_NUMBER_AT, movieSesList.getNumber());
+        model.addAttribute(PAGE_NUMBERS_ATTRIBUTE, movieSesList.getTotalPages());
         return "admin/movieSession";
     }
 
     @GetMapping("/movieSession/new/{movieId}")
-    public String addMovieSession(@ModelAttribute("movieSession") MovieSesCreateDto movieSession, @PathVariable Long movieId, Model model) {
+    public String addMovieSession(@ModelAttribute("movieSession") MovieSesCreateDto movieSession,
+                                  @PathVariable Long movieId, Model model) {
         model.addAttribute(MOVIE_ID, movieId);
        return "admin/addMovieSession";
     }
 
     @PostMapping("/movieSession/new/{movieId}")
-    public String addMovieSession(@ModelAttribute("movieSession") @Valid MovieSesCreateDto movieSession, BindingResult bindingResult, @PathVariable Long movieId, Model model) {
+    public String addMovieSession(@ModelAttribute("movieSession") @Valid MovieSesCreateDto movieSession,
+                                  BindingResult bindingResult, @PathVariable Long movieId, Model model) {
         if (bindingResult.hasErrors()) {
             return "admin/addMovieSession";
         }
@@ -165,9 +170,9 @@ public class AdminController {
     }
 
 
-    @PostMapping("/showStat")
+    @GetMapping("/showStat")
     public String showAttendanceStat(HttpServletRequest request, Model model) {
-        String date = request.getParameter("date");
+        String date = request.getParameter("showDate");
         if (date != null && !date.isEmpty()) {
             LocalDate showDate = Date.valueOf(date).toLocalDate();
             log.info("show attendance statistics of movie theater by date: " + showDate);
@@ -175,10 +180,10 @@ public class AdminController {
             final float percentage = countBookedSeat / (float) HALL_CAPACITY * PERCENTAGE_100;
             log.info("calculate percentage of attendance: " + percentage);
             model.addAttribute(PERCENTAGE_BOOKED_SEATS, String.format("%.0f", percentage));
-            return "redirect:/profile";
+            return "redirect:/user/show/profile";
         }
         log.info("redirect from Statistics!!!");
-        return "redirect:/profile";
+        return "redirect:/user/show/profile";
     }
 
 }

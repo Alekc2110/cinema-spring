@@ -13,9 +13,6 @@
         <jsp:include page="/WEB-INF/jsp/parts/header.jsp"/>
     </header>
 
-    <input class="form-control table-sm" id="myInput" type="text" placeholder="Search..">
-    <br>
-
     <table id="tickets" class="table table-bordered table-sm">
         <thead class="thead-light">
         <tr>
@@ -61,7 +58,6 @@
 <%--    </ul>--%>
 <%--</nav>--%>
 
-<script src="/resources/js/search.js"></script>
 <script src="/resources/js/orderSort.js"></script>
 </body>
 </html>

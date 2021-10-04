@@ -13,9 +13,15 @@ import com.my.booking.cinema.model.web.MovieSesUpdate;
 import com.my.booking.cinema.model.web.TableSessionDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -50,11 +56,17 @@ public class MovieService {
         Movie movie = movieDao.getMovieById(movieId).orElseThrow(EntityNotFoundException::new);
         return mapper.map(movie, MovieDto.class);
     }
+//
+//    public List<MovieDto> findAllMovies() {
+//        log.info("return all movies list in movieService");
+//        return movieDao.getAllMovies().stream().
+//                map(movie -> mapper.map(movie, MovieDto.class)).collect(Collectors.toList());
+//    }
 
-    public List<MovieDto> findAllMovies() {
-        log.info("return all movies list in movieService");
-        return movieDao.getAllMovies().stream().
-                map(movie -> mapper.map(movie, MovieDto.class)).collect(Collectors.toList());
+    public Page<Movie> findAllMovies(Integer pageNo, Integer pageSize) {
+        log.info("return Page movies in movieService");
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+        return movieDao.getAllMovies(paging);
     }
 
     public Long saveMovie(MovieCreateDto movieCreateDto) {
@@ -67,6 +79,13 @@ public class MovieService {
         log.info("find movie sessions by movieId: " + movieId);
         List<MovieSession> movieSessionsByMovie = movieSessionDao.getMovieSessionsByMovie(movieId);
         return movieSessionsByMovie.stream().map(ms -> mapper.map(ms, MovieSessionDto.class)).collect(Collectors.toList());
+    }
+
+    public Page<MovieSession> findMovieSesByMovieId(Long movieId, Integer pageNo, Integer pageSize) {
+        log.info("find movie sessions by movieId: " + movieId);
+        log.info(String.format("return Page movies session by pageNo: %s and pageSize: %s in movieService", pageNo, pageSize));
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+        return movieSessionDao.getMovieSessionsByMovie(movieId, paging);
     }
 
     public MovieSessionDto findMovieSessionById(Long movieSesId) {
@@ -105,18 +124,18 @@ public class MovieService {
         movieSession.orElseThrow(() -> new EntitySaveDaoException("could not update movie session" + movieSesUpdate));
     }
 
-
-    public List<TableSessionDTO> returnViewSessionList() {
+    public List<TableSessionDTO> returnViewList(Page<Movie> pageMovies) {
         List<TableSessionDTO> viewList = new ArrayList<>();
-        List<Movie> allActiveMovies = movieDao.getAllMovies().stream().
-                filter(movie -> movie.getMovieSessionList().size() > 0).collect(Collectors.toList());
-        allActiveMovies.forEach(movie ->
-                movie.getMovieSessionList().forEach(ms -> {
-                    viewList.add(TableSessionDTO.builder().id(movie.getId()).
-                            movieTitle(movie.getTitle()).date(ms.getShowDate()).time(ms.getShowTime()).build());
-                }));
+        if (!pageMovies.isEmpty()) {
+            pageMovies.getContent().forEach(movie ->
+                    movie.getMovieSessionList().forEach(ms -> {
+                        viewList.add(TableSessionDTO.builder().id(movie.getId()).
+                                movieTitle(movie.getTitle()).date(ms.getShowDate()).time(ms.getShowTime()).build());
+                    }));
+        }
         return viewList;
     }
+
 
     public List<TableSessionDTO> getTimeTableByDate(LocalDate date) {
         List<TableSessionDTO> view = new ArrayList<>();
@@ -143,5 +162,6 @@ public class MovieService {
         log.info("delete movie by id: " + movieSesId);
         movieSessionDao.deleteMovieSession(movieSesId);
     }
+
 
 }
