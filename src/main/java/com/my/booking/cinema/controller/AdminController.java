@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -80,16 +81,22 @@ public class AdminController {
     }
 
     @PostMapping("/{movieId}/edit")
-    public String manageMovies(MovieDto movieEdit, Model model, @PathVariable Long movieId) {
+    public ModelAndView manageMovies(@ModelAttribute @Valid MovieDto movieEdit, BindingResult result, @PathVariable Long movieId) {
+        ModelAndView mav = new ModelAndView();
+        if(result.hasErrors()){
+            mav.setViewName("redirect:/admin/" + movieId + "/edit");
+            return mav;
+        }
         try {
             log.info("update movie by id: " + movieId);
             movieEdit.setId(movieId);
             movieService.updateMovie(movieEdit);
-            model.addAttribute(UPDATE_SUCCESS, "true");
+            mav.setViewName("redirect:/admin/manageMovie");
+            mav.addObject(UPDATE_SUCCESS, "true");
         } catch (EntitySaveDaoException e) {
-            model.addAttribute(UPDATE_SUCCESS, "false");
+            mav.addObject(UPDATE_SUCCESS, "false");
         }
-        return "redirect:/admin/manageMovie";
+        return mav;
     }
 
     @GetMapping("/{movieId}/delete")
@@ -118,7 +125,7 @@ public class AdminController {
     public String addMovieSession(@ModelAttribute("movieSession") MovieSesCreateDto movieSession,
                                   @PathVariable Long movieId, Model model) {
         model.addAttribute(MOVIE_ID, movieId);
-       return "admin/addMovieSession";
+        return "admin/addMovieSession";
     }
 
     @PostMapping("/movieSession/new/{movieId}")
@@ -148,16 +155,22 @@ public class AdminController {
     }
 
     @PostMapping("/{movieSesId}/editMovieSession")
-    public String editMovieSession(MovieSesUpdate movieSesEdit, Model model, @PathVariable Long movieSesId) {
+    public ModelAndView editMovieSession(@ModelAttribute @Valid MovieSesUpdate movieSesEdit, BindingResult result, @PathVariable Long movieSesId) {
+        ModelAndView mav = new ModelAndView();
+        if (result.hasErrors()) {
+           mav.setViewName("redirect:/admin/" + movieSesId + "/editMovieSession");
+           return mav;
+        }
         try {
             log.info("update movie session by id: " + movieSesId);
             movieSesEdit.setId(movieSesId);
             movieService.updateMovieSession(movieSesEdit);
-            model.addAttribute(UPDATE_MS_SUCCESS, "true");
+            mav.setViewName("redirect:/admin/manageMovie");
+            mav.addObject(UPDATE_MS_SUCCESS, "true");
         } catch (EntitySaveDaoException e) {
-            model.addAttribute(UPDATE_MS_SUCCESS, "false");
+            mav.addObject(UPDATE_MS_SUCCESS, "false");
         }
-        return "redirect:/admin/manageMovie";
+        return mav;
     }
 
     @GetMapping("/{movieSesId}/deleteMovieSession")
@@ -171,7 +184,7 @@ public class AdminController {
 
 
     @GetMapping("/showStat")
-    public String showAttendanceStat(HttpServletRequest request, Model model) {
+    public ModelAndView showAttendanceStat(HttpServletRequest request) {
         String date = request.getParameter("showDate");
         if (date != null && !date.isEmpty()) {
             LocalDate showDate = Date.valueOf(date).toLocalDate();
@@ -179,11 +192,12 @@ public class AdminController {
             final int countBookedSeat = orderService.getCountBookedSeatByDate(showDate);
             final float percentage = countBookedSeat / (float) HALL_CAPACITY * PERCENTAGE_100;
             log.info("calculate percentage of attendance: " + percentage);
-            model.addAttribute(PERCENTAGE_BOOKED_SEATS, String.format("%.0f", percentage));
-            return "redirect:/user/show/profile";
+            ModelAndView mav = new ModelAndView("redirect:/user/show/profile");
+            mav.addObject(PERCENTAGE_BOOKED_SEATS, String.format("%.0f", percentage));
+            return mav;
         }
-        log.info("redirect from Statistics!!!");
-        return "redirect:/user/show/profile";
+        log.info("redirect from statistics");
+        return new ModelAndView("redirect:/user/show/profile");
     }
 
 }

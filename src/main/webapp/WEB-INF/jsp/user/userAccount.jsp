@@ -55,7 +55,7 @@
                 </form:form>
                 <br>
                 <div style="width: 30%" class="progress">
-                    <div class="progress-bar" title="<c:out value="${percentage}"/>%" style="width:<c:out value="${requestScope.percentage}"/>%"><c:out value="${percentage}"/>%</div>
+                    <div class="progress-bar" title="<c:out value="${param.percentage}"/>%" style="width:<c:out value="${requestScope.percentage}"/>%"><c:out value="${param.percentage}"/>%</div>
                 </div>
             </c:if>
         </c:forEach>

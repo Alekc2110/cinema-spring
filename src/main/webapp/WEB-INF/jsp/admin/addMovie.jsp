@@ -15,7 +15,7 @@
         <!-- Title input-->
         <div class="form-group">
             <label class="col-md-4 control-label" for="title"><fmt:message key="show.movie.title"/></label>
-            <form:errors cssStyle="color:red" path="title"><fmt:message
+            <form:errors path="title"><fmt:message
                     key="add.movie.button.bad.input"/></form:errors>
             <div class="col-md-5">
                 <input
@@ -31,7 +31,7 @@
         <!-- Description -->
         <div class="form-group">
             <label class="col-md-4 control-label" for="description"><fmt:message key="show.movie.description"/></label>
-            <form:errors cssStyle="color:red" path="description"><fmt:message
+            <form:errors path="description"><fmt:message
                     key="add.movie.button.bad.input"/></form:errors>
             <div class="col-md-4">
                 <textarea class="form-control" id="description" name="description"></textarea>
@@ -41,7 +41,7 @@
         <!-- Photo URL-->
         <div class="form-group">
             <label class="col-md-4 control-label" for="photo"><fmt:message key="show.movie.photoUrl"/></label>
-            <form:errors cssStyle="color:red" path="photoUrl"><fmt:message
+            <form:errors path="photoUrl"><fmt:message
                     key="add.movie.button.bad.input"/></form:errors>
             <div class="col-md-5">
                 <input
@@ -57,7 +57,7 @@
         <!-- Director-->
         <div class="form-group">
             <label class="col-md-4 control-label" for="director"><fmt:message key="show.movie.director"/></label>
-            <form:errors cssStyle="color:red" path="director"><fmt:message
+            <form:errors path="director"><fmt:message
                     key="add.movie.button.bad.input"/></form:errors>
             <div class="col-md-5">
                 <input
@@ -73,7 +73,7 @@
         <!-- Country-->
         <div class="form-group">
             <label class="col-md-4 control-label" for="country"><fmt:message key="show.movie.country"/></label>
-            <form:errors cssStyle="color:red" path="country"><fmt:message
+            <form:errors path="country"><fmt:message
                     key="add.movie.button.bad.input"/></form:errors>
             <div class="col-md-5">
                 <input
@@ -89,7 +89,7 @@
         <!-- Year-->
         <div class="form-group">
             <label class="col-md-4 control-label" for="year"><fmt:message key="show.movie.year"/></label>
-            <form:errors cssStyle="color:red" path="year"><fmt:message
+            <form:errors path="year"><fmt:message
                     key="add.movie.button.bad.input"/></form:errors>
             <div class="col-md-5">
                 <input

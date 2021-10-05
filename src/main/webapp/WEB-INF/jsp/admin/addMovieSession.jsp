@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 
 <!DOCTYPE html>
@@ -15,6 +16,8 @@
         <!-- Show_date input-->
         <div class="form-group">
             <label class="col-md-4 control-label" for="showDate"><fmt:message key="add.movie.session.table.show.date"/></label>
+            <form:errors path="showDate"><fmt:message
+                    key="add.movie.button.bad.input"/></form:errors>
             <div class="col-md-5">
                 <input
                         id="showDate"
@@ -29,6 +32,8 @@
         <!-- Show_time input-->
         <div class="form-group">
             <label class="col-md-4 control-label" for="showTime"><fmt:message key="add.movie.session.table.show.time"/></label>
+            <form:errors path="showTime"><fmt:message
+                    key="add.movie.button.bad.input"/></form:errors>
             <div class="col-md-5">
                 <input
                         id="showTime"
@@ -43,6 +48,8 @@
         <!-- Price-->
         <div class="form-group">
             <label class="col-md-4 control-label" for="ticketPrice"><fmt:message key="add.movie.session.table.price"/></label>
+            <form:errors path="ticketPrice"><fmt:message
+                    key="add.movie.button.bad.input"/></form:errors>
             <div class="col-md-5">
                 <input
                         id="ticketPrice"

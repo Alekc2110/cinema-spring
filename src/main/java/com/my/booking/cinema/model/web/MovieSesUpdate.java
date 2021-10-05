@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -19,5 +21,6 @@ public class MovieSesUpdate {
     private LocalDate showDate;
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime showTime;
+    @Digits(integer = 3, fraction = 0)
     private int ticketPrice;
 }

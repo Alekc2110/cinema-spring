@@ -16,7 +16,7 @@
             <div>
                 <h4>
                     <sec:authorize access="hasAnyRole('ADMIN', 'USER')">
-                        <a href="${pageContext.request.contextPath}user/show/profile">
+                        <a href="/user/show/profile">
                             <fmt:message key="nav.bar.profile"/></a>
                     </sec:authorize>
                 </h4>

@@ -15,6 +15,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.time.LocalDate;
@@ -97,7 +98,7 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public String profilePage(Principal principal, Model model, @RequestParam(defaultValue = "", name = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    public ModelAndView profilePage(Principal principal, Model model, @RequestParam(defaultValue = "", name = "date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         final UserDto userByName = userService.findUserByName(principal.getName());
         log.info("return userAccount page in MainController by user name: " + userByName);
         model.addAttribute(USER, userByName);
@@ -105,10 +106,11 @@ public class UserController {
             final int countBookedSeat = orderService.getCountBookedSeatByDate(date);
             final float percentage = countBookedSeat / (float) HALL_CAPACITY * PERCENTAGE_100;
             log.info("calculate percentage of attendance: " + percentage);
-            model.addAttribute(PERCENTAGE_BOOKED_SEATS, String.format("%.0f", percentage));
+            ModelAndView mav = new ModelAndView("redirect:/user/show/profile");
+            mav.addObject(PERCENTAGE_BOOKED_SEATS, String.format("%.0f", percentage));
 
         }
-        return "user/userAccount";
+        return new ModelAndView("user/userAccount");
     }
 
 }
