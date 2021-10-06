@@ -14,6 +14,8 @@ public interface MovieSessionDao {
 
     Page<MovieSession> getMovieSessionsByMovie(Long movieId, Pageable pageable);
 
+    Page<MovieSession> getAllMovieSessions(Pageable pageable);
+
     MovieSession getMovieSessionById (Long msId);
 
     List<MovieSession> findMovieSesByDate(LocalDate date);

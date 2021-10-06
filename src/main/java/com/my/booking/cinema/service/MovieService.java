@@ -18,10 +18,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import javax.persistence.EntityNotFoundException;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -67,6 +65,18 @@ public class MovieService {
         log.info("return Page movies in movieService");
         Pageable paging = PageRequest.of(pageNo, pageSize);
         return movieDao.getAllMovies(paging);
+    }
+
+    public Page<MovieSession> findAllMovieSessions(Integer pageNo, Integer pageSize) {
+        log.info("return Page movie sessions in movieService");
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+        return movieSessionDao.getAllMovieSessions(paging);
+    }
+
+    public Page<MovieSession> findAllMovieSessions(Integer pageNo, Integer pageSize, String sortOption) {
+        log.info("return Page movie sessions in movieService");
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortOption));
+        return movieSessionDao.getAllMovieSessions(paging);
     }
 
     public Long saveMovie(MovieCreateDto movieCreateDto) {
@@ -124,15 +134,10 @@ public class MovieService {
         movieSession.orElseThrow(() -> new EntitySaveDaoException("could not update movie session" + movieSesUpdate));
     }
 
-    public List<TableSessionDTO> returnViewList(Page<Movie> pageMovies) {
+    public List<TableSessionDTO> returnViewList(List<MovieSession> pageMovies) {
         List<TableSessionDTO> viewList = new ArrayList<>();
-        if (!pageMovies.isEmpty()) {
-            pageMovies.getContent().forEach(movie ->
-                    movie.getMovieSessionList().forEach(ms -> {
-                        viewList.add(TableSessionDTO.builder().id(movie.getId()).
-                                movieTitle(movie.getTitle()).date(ms.getShowDate()).time(ms.getShowTime()).build());
-                    }));
-        }
+         pageMovies.forEach(ms -> viewList.add(TableSessionDTO.builder().movieId(ms.getMovie().getId()).
+                 movieTitle(ms.getMovie().getTitle()).date(ms.getShowDate()).time(ms.getShowTime()).build()));
         return viewList;
     }
 

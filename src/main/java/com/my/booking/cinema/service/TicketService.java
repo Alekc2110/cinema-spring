@@ -6,8 +6,11 @@ import com.my.booking.cinema.model.dto.TicketDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,9 +28,11 @@ public class TicketService {
         return ticketsBySession.stream().map(ticket-> mapper.map(ticket, TicketDto.class)).collect(Collectors.toList());
     }
 
-    public List<TicketDto> findTicketByUserId(Long userId){
-        List<Ticket> ticketsBySession = ticketDao.findTicketByUserId(userId);
-        return ticketsBySession.stream().map(ticket-> mapper.map(ticket, TicketDto.class)).collect(Collectors.toList());
+    public Page<TicketDto> findTicketByUserId(Long userId, Integer pageNo, Integer pageSize){
+        log.info(String.format("return Page tickets by pageNo: %s and pageSize: %s in ticketService", pageNo, pageSize));
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+        Page<Ticket> ticketsBySession = ticketDao.findTicketByUserId(userId, paging);
+        return ticketsBySession.map(t -> mapper.map(t, TicketDto.class));
     }
 
 

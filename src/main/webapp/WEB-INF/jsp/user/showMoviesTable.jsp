@@ -19,9 +19,8 @@
             <label for="sel1"><fmt:message key="sort.by.table.name"/></label>
             <select class="form-table" name="option" id="sel1">
                 <option></option>
-                <option value="title"><fmt:message key="sort.by.movie.title"/></option>
-                <option value="date"><fmt:message key="sort.by.movie.session.date"/></option>
-                <option value="time"><fmt:message key="sort.by.movie.session.time"/></option>
+                <option value="showDate"><fmt:message key="sort.by.movie.session.date"/></option>
+                <option value="showTime"><fmt:message key="sort.by.movie.session.time"/></option>
             </select>
             <div class="form-group">
                 <label class="col-md-4 control-label" for="save"></label>
@@ -50,7 +49,7 @@
                 <td><c:out value="${showMovie.date}"/></td>
                 <td><c:out value="${showMovie.time}"/></td>
                 <td><a style="color: #a71d2a"
-                       href="${pageContext.request.contextPath}/movieDetail/${showMovie.id}">
+                       href="${pageContext.request.contextPath}/movieDetail/${showMovie.movieId}">
                     <fmt:message key="show.movie.table.details.link"/></a></td>
             </tr>
         </c:forEach>
@@ -65,7 +64,7 @@
         <c:forEach var="page" begin="0" end="${totalPages-1}">
             <li class="page-item">
                 <a class="page-link"
-                   href="${pageContext.request.contextPath}/user/show/movieTable?page=${page}&size=${size}">
+                   href="${pageContext.request.contextPath}/user/show/movieTable?page=${page}&size=${size}&option=${option}">
                     <c:out value="${page+1}"/></a>
             </li>
         </c:forEach>

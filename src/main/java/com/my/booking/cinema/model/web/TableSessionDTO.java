@@ -12,7 +12,7 @@ import java.time.LocalTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TableSessionDTO {
-    private Long id;
+    private Long movieId;
     private String movieTitle;
     private LocalDate date;
     private LocalTime time;

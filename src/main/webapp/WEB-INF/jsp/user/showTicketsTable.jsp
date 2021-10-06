@@ -34,7 +34,8 @@
         </tr>
         </thead>
         <tbody id="tbody">
-        <c:forEach items="${ticketList}" var="ticket">
+        <c:if test="${data.size() > 0 }">
+        <c:forEach items="${data}" var="ticket">
             <tr>
                 <td><c:out value="${ticket.movieSession.showDate}"/></td>
                 <td><c:out value="${ticket.movieSession.showTime}"/></td>
@@ -43,20 +44,23 @@
                 <td><c:out value="${ticket.movieSession.ticketPrice}"/></td>
             </tr>
         </c:forEach>
+        </c:if>
         </tbody>
     </table>
 </div>
-<%--<nav aria-label="...">--%>
-<%--    <ul class="pagination pagination-sm justify-content-center">--%>
-<%--        <c:forEach var="pagNumber" begin="1" end="${requestScope.pageNumbers}">--%>
-<%--            <li class="page-item">--%>
-<%--                <a class="page-link"--%>
-<%--                   href="${pageContext.request.contextPath}/cinema/ticketsTable?pagination=${pagNumber}">--%>
-<%--                    <c:out value="${pagNumber}"/></a>--%>
-<%--            </li>--%>
-<%--        </c:forEach>--%>
-<%--    </ul>--%>
-<%--</nav>--%>
+<c:if test="${data.size() > 0 }">
+    <nav aria-label="...">
+        <ul class="pagination pagination-sm justify-content-center">
+            <c:forEach var="page" begin="0" end="${totalPages-1}">
+                <li class="page-item">
+                    <a class="page-link"
+                       href="${pageContext.request.contextPath}/user/show/ticketsTable?page=${page}&size=${size}">
+                        <c:out value="${page+1}"/></a>
+                </li>
+            </c:forEach>
+        </ul>
+    </nav>
+</c:if>
 
 <script src="/resources/js/orderSort.js"></script>
 </body>

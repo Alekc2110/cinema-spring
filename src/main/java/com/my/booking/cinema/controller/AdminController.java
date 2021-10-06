@@ -13,11 +13,9 @@ import com.my.booking.cinema.service.OrderService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,7 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.List;
 
 import static com.my.booking.cinema.controller.Constants.*;
 
@@ -42,11 +39,11 @@ public class AdminController {
     public String manageMovies(Model model, @RequestParam(defaultValue = "0", name = "page") Integer pageNo,
                                @RequestParam(defaultValue = "3", name = "size") Integer pageSize) {
         final Page<Movie> allMoviesPage = movieService.findAllMovies(pageNo, pageSize);
+        final int totalPages = allMoviesPage.getTotalPages();
+        log.info("return total pages number: " + totalPages);
         log.info("return showMovies page in adminController with all movies list: " + allMoviesPage);
         model.addAttribute(DATA, allMoviesPage.getContent());
         model.addAttribute(RECORD_PER_PAGE_AT, allMoviesPage.getSize());
-        model.addAttribute(TOTAL_ELEMENTS, allMoviesPage.getTotalElements());
-        model.addAttribute(PAGE_NUMBER_AT, allMoviesPage.getNumber());
         model.addAttribute(PAGE_NUMBERS_ATTRIBUTE, allMoviesPage.getTotalPages());
         return "admin/showMovies";
     }
@@ -111,13 +108,11 @@ public class AdminController {
     @GetMapping("/manageMovieSession/{movieId}")
     public String manageMovieSession(@PathVariable Long movieId, @RequestParam(defaultValue = "0", name = "page") Integer pageNo,
                                      @RequestParam(defaultValue = "5", name = "size") Integer pageSize, Model model) {
-        Page<MovieSession> movieSesList = movieService.findMovieSesByMovieId(movieId, pageNo, pageSize);
+        Page<MovieSession> movieSesPage = movieService.findMovieSesByMovieId(movieId, pageNo, pageSize);
         model.addAttribute(MOVIE_ID, movieId);
-        model.addAttribute(DATA, movieSesList.getContent());
-        model.addAttribute(RECORD_PER_PAGE_AT, movieSesList.getSize());
-        model.addAttribute(TOTAL_ELEMENTS, movieSesList.getTotalElements());
-        model.addAttribute(PAGE_NUMBER_AT, movieSesList.getNumber());
-        model.addAttribute(PAGE_NUMBERS_ATTRIBUTE, movieSesList.getTotalPages());
+        model.addAttribute(DATA, movieSesPage.getContent());
+        model.addAttribute(RECORD_PER_PAGE_AT, movieSesPage.getSize());
+        model.addAttribute(PAGE_NUMBERS_ATTRIBUTE, movieSesPage.getTotalPages());
         return "admin/movieSession";
     }
 

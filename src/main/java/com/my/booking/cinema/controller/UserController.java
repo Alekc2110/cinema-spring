@@ -1,6 +1,6 @@
 package com.my.booking.cinema.controller;
 
-import com.my.booking.cinema.model.Movie;
+import com.my.booking.cinema.model.MovieSession;
 import com.my.booking.cinema.model.dto.TicketDto;
 import com.my.booking.cinema.model.dto.UserDto;
 import com.my.booking.cinema.model.web.TableSessionDTO;
@@ -14,12 +14,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.List;
 
 import static com.my.booking.cinema.controller.Constants.*;
 
@@ -38,42 +40,37 @@ public class UserController {
     public String showMovieTable(Model model, @RequestParam(defaultValue = "0", name = "page") Integer pageNo,
                                  @RequestParam(defaultValue = "5", name = "size") Integer pageSize,
                                  @RequestParam(defaultValue = "", name = "option") String sortOption) {
-        final Page<Movie> pageMovies = movieService.findAllMovies(pageNo, pageSize);
-        final int totalPages = pageMovies.getTotalPages();
-        log.info("return page movies: " + pageMovies);
-        log.info("return total pages number: " + totalPages);
-        final List<TableSessionDTO> viewList = movieService.returnViewList(pageMovies);
+        Page<MovieSession> pageMovSession;
         if (sortOption != null && !sortOption.isEmpty()) {
-            if (sortOption.equals(SORT_BY_TITLE)) {
-                viewList.sort(Comparator.comparing(TableSessionDTO::getMovieTitle));
-                model.addAttribute(SORT_OPTION, SORT_BY_TITLE);
-            }
-            if (sortOption.equals(SORT_BY_DATE)) {
-                viewList.sort(Comparator.comparing(TableSessionDTO::getDate));
-                model.addAttribute(SORT_OPTION, SORT_BY_DATE);
-            }
-            if (sortOption.equals(SORT_BY_TIME)) {
-                viewList.sort(Comparator.comparing(TableSessionDTO::getTime));
-                model.addAttribute(SORT_OPTION, SORT_BY_TIME);
-            }
+            pageMovSession = movieService.findAllMovieSessions(pageNo, pageSize, sortOption);
+            model.addAttribute(SORT_OPTION, sortOption);
+        } else {
+            pageMovSession = movieService.findAllMovieSessions(pageNo, pageSize);
         }
-
-        log.info("return movie table page in userController with all sessions list: " + viewList);
+        final int totalPages = pageMovSession.getTotalPages();
+        log.info("return total movie sessions pages number: " + totalPages);
+        final List<TableSessionDTO> viewList = movieService.returnViewList(pageMovSession.getContent());
+        log.info("return movie session table page in userController: " + viewList);
+        log.info("return movie session table page *size* in userController: " + viewList.size());
         model.addAttribute(DATA, viewList);
-        model.addAttribute(RECORD_PER_PAGE_AT, pageMovies.getSize());
-        model.addAttribute(TOTAL_ELEMENTS, pageMovies.getTotalElements());
-        model.addAttribute(PAGE_NUMBER_AT, pageMovies.getNumber());
-        model.addAttribute(PAGE_NUMBERS_ATTRIBUTE, pageMovies.getTotalPages());
+        model.addAttribute(RECORD_PER_PAGE_AT, pageMovSession.getSize());
+        model.addAttribute(PAGE_NUMBERS_ATTRIBUTE, pageMovSession.getTotalPages());
         return "user/showMoviesTable";
     }
 
     @GetMapping("/ticketsTable")
-    public String showTicketsTable(Principal principal, Model model) {
+    public String showTicketsTable(Principal principal, @RequestParam(defaultValue = "0", name = "page") Integer pageNo,
+                                   @RequestParam(defaultValue = "5", name = "size") Integer pageSize, Model model) {
         log.info("show bought tickets list table");
         final UserDto userByName = userService.findUserByName(principal.getName());
         log.info("found user: " + userByName);
-        final List<TicketDto> ticketsByUserId = ticketService.findTicketByUserId(userByName.getId());
-        model.addAttribute(TICKET_LIST_ATTRIBUTE, ticketsByUserId);
+        final Page<TicketDto> ticketPage = ticketService.findTicketByUserId(userByName.getId(), pageNo, pageSize);
+        model.addAttribute(DATA, ticketPage.getContent());
+        model.addAttribute(RECORD_PER_PAGE_AT, ticketPage.getSize());
+        model.addAttribute(TOTAL_ELEMENTS, ticketPage.getTotalElements());
+        model.addAttribute(PAGE_NUMBER_AT, ticketPage.getNumber());
+        model.addAttribute(PAGE_NUMBERS_ATTRIBUTE, ticketPage.getTotalPages());
+
         return "user/showTicketsTable";
     }
 
@@ -102,7 +99,7 @@ public class UserController {
         final UserDto userByName = userService.findUserByName(principal.getName());
         log.info("return userAccount page in MainController by user name: " + userByName);
         model.addAttribute(USER, userByName);
-        if(date != null && !date.toString().isEmpty()) {
+        if (date != null && !date.toString().isEmpty()) {
             final int countBookedSeat = orderService.getCountBookedSeatByDate(date);
             final float percentage = countBookedSeat / (float) HALL_CAPACITY * PERCENTAGE_100;
             log.info("calculate percentage of attendance: " + percentage);

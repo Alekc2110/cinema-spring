@@ -5,8 +5,9 @@ import com.my.booking.cinema.dao.repository.TicketRepository;
 import com.my.booking.cinema.model.Ticket;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @AllArgsConstructor
@@ -27,5 +28,10 @@ public class TicketDaoImpl implements TicketDao {
     public List<Ticket> findTicketByUserId(Long userId) {
         log.info("get tickets list by userId: " + userId);
         return ticketRepository.findAllByUserId(userId);
+    }
+
+    @Override
+    public Page<Ticket> findTicketByUserId(Long userId, Pageable pageable) {
+        return ticketRepository.findAllByUserId(userId, pageable);
     }
 }

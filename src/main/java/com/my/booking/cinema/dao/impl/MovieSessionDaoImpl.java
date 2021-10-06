@@ -39,6 +39,12 @@ public class MovieSessionDaoImpl implements MovieSessionDao {
     }
 
     @Override
+    public Page<MovieSession> getAllMovieSessions(Pageable pageable) {
+        log.info("get all movie sessions page");
+        return movieSessionRepo.findAll(pageable);
+    }
+
+    @Override
     public MovieSession getMovieSessionById(Long msId) {
         log.info("get movie session by movieSesId: " + msId);
         return movieSessionRepo.findById(msId).orElseThrow(EntityNotFoundException::new);
