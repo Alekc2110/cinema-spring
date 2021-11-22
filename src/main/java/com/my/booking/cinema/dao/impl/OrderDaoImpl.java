@@ -15,7 +15,7 @@ import java.util.Optional;
 @Component
 public class OrderDaoImpl implements OrderDao {
 
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
     @Override
     public Optional<Order> saveOrder(Order order) {

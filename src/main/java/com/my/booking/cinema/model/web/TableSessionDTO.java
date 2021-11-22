@@ -16,5 +16,4 @@ public class TableSessionDTO {
     private String movieTitle;
     private LocalDate date;
     private LocalTime time;
-
 }

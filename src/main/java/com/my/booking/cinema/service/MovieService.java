@@ -54,12 +54,6 @@ public class MovieService {
         Movie movie = movieDao.getMovieById(movieId).orElseThrow(EntityNotFoundException::new);
         return mapper.map(movie, MovieDto.class);
     }
-//
-//    public List<MovieDto> findAllMovies() {
-//        log.info("return all movies list in movieService");
-//        return movieDao.getAllMovies().stream().
-//                map(movie -> mapper.map(movie, MovieDto.class)).collect(Collectors.toList());
-//    }
 
     public Page<Movie> findAllMovies(Integer pageNo, Integer pageSize) {
         log.info("return Page movies in movieService");
@@ -167,6 +161,5 @@ public class MovieService {
         log.info("delete movie by id: " + movieSesId);
         movieSessionDao.deleteMovieSession(movieSesId);
     }
-
 
 }

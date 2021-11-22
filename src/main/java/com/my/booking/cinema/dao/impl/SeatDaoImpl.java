@@ -39,9 +39,4 @@ public class SeatDaoImpl implements SeatDao {
         return seatRepository.findById(seatId);
     }
 
-//    @Override
-//    public List<Seat> getBookedSeatsByDate(LocalDate date) {
-//        log.info("returned all booked seats from db by date: " + date);
-//        return seatRepository.getAllBookedSeatsByDate(date);
-//    }
 }
